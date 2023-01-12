@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GraduationMVVM.MVVM.Views.AddDeviceView"
+             Title="AddDeviceView">
+    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+
+        <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+            <Label Text="Device Name" HorizontalOptions="Center" FontSize="Large"/>
+            <Entry x:Name="Entry_Name" Placeholder="Please Enter a Device Name" PlaceholderColor="Gray" HorizontalOptions="Center" FontSize="Medium"/>
+        </VerticalStackLayout>
+
+        <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
+            <Label Text="Device Token" HorizontalOptions="Center" FontSize="Large"/>
+            <Entry x:Name="Entry_Token" Placeholder="Please Enter a Device TOKEN" PlaceholderColor="Gray" HorizontalOptions="Center" FontSize="Medium" />
+        </VerticalStackLayout>
+
+        <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
+            <Label Text="Device Server" HorizontalOptions="Center" FontSize="Large"/>
+            <Picker x:Name="pickerServer"
+                    Title="Please Select a Server"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    FontSize="Medium">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>fra1.blynk.cloud</x:String>
+                        <x:String>lon1.blynk.cloud</x:String>
+                        <x:String>ny3.blynk.cloud</x:String>
+                        <x:String>sgp1.blynk.cloud</x:String>
+                        <x:String>blr1.blynk.cloud</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+        </VerticalStackLayout>
+
+        <Button x:Name="buttonAddDevice" Text="Add Device" Command="{Binding InsertCommand}"/>
+
+    </VerticalStackLayout>
+</ContentPage>
