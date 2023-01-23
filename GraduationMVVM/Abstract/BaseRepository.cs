@@ -13,9 +13,10 @@ namespace GraduationMVVM.Abstract
             Connection = new SQLiteConnection(Constant.DBpath);
             Connection.CreateTable<T>();
         }
-        public void AddItem(T item)
+        public void AddorUpdateItem(T item)
         {
-            Connection.Insert(item);
+            if (item.ID != 0) { Connection.Update(item); }
+            else { Connection.Insert(item); }
         }
 
         public void DeleteItem(T item)

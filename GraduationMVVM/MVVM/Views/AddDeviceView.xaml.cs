@@ -1,6 +1,7 @@
 using GraduationMVVM.MVVM.Models;
 using GraduationMVVM.MVVM.ViewModels;
 
+
 namespace GraduationMVVM.MVVM.Views;
 
 public partial class AddDeviceView : ContentPage
@@ -15,35 +16,51 @@ public partial class AddDeviceView : ContentPage
 
     }
 
-    //private void EntrySave_Clicked(object sender, EventArgs e)
-    //{
-    //    AddDeviceViewModel.DeviceName = Entry_Name.Text;
-    //    AddDeviceViewModel.DeviceToken = Entry_Token.Text;
-    //    AddDeviceViewModel.DeviceServer = pickerServer.SelectedItem.ToString();
-    //}
-
     public void Insertdevice()
     {
         if (Entry_Token.Text != null)
         {
-            token = Entry_Token.Text ;
+            AddDeviceViewModel.DeviceToken = Entry_Token.Text;
         }
+        else
+        {
+            AddDeviceViewModel.DeviceToken = token;
+        }
+
         if (server == "Please Select a Server")
         {
             DisplayAlert("Warning", "Please Select A Server", "Ok");
         }
+        else if (pickerServer.SelectedItem == null)
+        {
+
+            DisplayAlert("Warning", "Please Select A Server", "Ok");
+        }
         else
         {
-            server = "https://" + server + "/";
+            server = "https://" + pickerServer.SelectedItem.ToString() + "/";
+            AddDeviceViewModel.DeviceServer = server;
         }
 
-        App.DevicesRepository.AddItem(new Models.DevicesModel
+        if (Entry_Name.Text != null)
         {
-            Name = Entry_Name.Text,
-            Server = server,
-            Token = token
-        });
+            AddDeviceViewModel.DeviceName = Entry_Name.Text;
+        }
+        else
+        {
+            DisplayAlert("Warning", "Please Write a Name", "Ok");
+        }
 
-        
+        if (AddDeviceViewModel.isSaved)
+        {
+            DisplayAlert("Success", "Device Added", "OK");
+            AddDeviceViewModel.isSaved = false;
+            return;
+        }
+        else
+        {
+            DisplayAlert("Fail", "Device not Added", "OK");
+        }
+
     }
 }

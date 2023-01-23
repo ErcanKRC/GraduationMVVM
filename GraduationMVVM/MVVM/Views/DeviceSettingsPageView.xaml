@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="GraduationMVVM.MVVM.Views.AddDeviceView"
-             Title="AddDeviceView">
-    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+             x:Class="GraduationMVVM.MVVM.Views.DeviceSettingsPageView"
+             Title="DeviceSettingsPageView">
 
-        <Grid ColumnDefinitions="*,*,2*" RowDefinitions="*,*,*">
-            <Label Grid.Row="0" Grid.Column="0" Text="Device Name: " HorizontalOptions="Center"  VerticalOptions="Center" FontSize="Small" FontAttributes="Bold"/>
+    <VerticalStackLayout>
+        
+        <Grid ColumnDefinitions="*,*,2*" RowDefinitions="*,*,*" Margin="5">
+            <Label Grid.Row="0" Grid.Column="0" Text="Device Name: " HorizontalOptions="Start"  VerticalOptions="Center" FontSize="Small" FontAttributes="Bold"/>
             <Entry Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" x:Name="Entry_Name" Placeholder="Please Enter a Device Name" PlaceholderColor="Gray" HorizontalOptions="Start" FontSize="Small"/>
 
-            <Label Grid.Row="1" Grid.Column="0"  Text="Device Token: " HorizontalOptions="Center" VerticalOptions="Center" FontSize="Small" FontAttributes="Bold"/>
+            <Label Grid.Row="1" Grid.Column="0"  Text="Device Token: " HorizontalOptions="Start" VerticalOptions="Center" FontSize="Small" FontAttributes="Bold"/>
             <Entry Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" x:Name="Entry_Token" Placeholder="Please Enter a Device TOKEN" PlaceholderColor="Gray" HorizontalOptions="Start" FontSize="Small" />
 
-            <Label Grid.Row="2" Grid.Column="0" Text="Device Server: " HorizontalOptions="Center" VerticalOptions="Center" FontSize="Small" FontAttributes="Bold"/>
+            <Label Grid.Row="2" Grid.Column="0" Text="Device Server: " HorizontalOptions="Start" VerticalOptions="Center" FontSize="Small" FontAttributes="Bold"/>
             <Picker Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" x:Name="pickerServer"
                     Title="Please Select a Server"
                     HorizontalOptions="Start"
@@ -29,8 +30,7 @@
                 </Picker.ItemsSource>
             </Picker>
         </Grid>
-        
-        <Button x:Name="buttonAddDevice" Text="Add Device" Command="{Binding InsertCommand}"/>
 
+        <Button  Text="Update Device" Command="{Binding UpdateCommand}"/>
     </VerticalStackLayout>
 </ContentPage>

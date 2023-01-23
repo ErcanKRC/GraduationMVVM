@@ -6,7 +6,7 @@ namespace GraduationMVVM.Abstract
     {
         List<T> GetAll();
 
-        void AddItem(T item);
+        void AddorUpdateItem(T item);
         void DeleteItem(T item);
         public void DeleteIDItem(int ID);
         public T Get(Expression<Func<T, bool>> filter);

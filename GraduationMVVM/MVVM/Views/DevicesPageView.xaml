@@ -2,15 +2,15 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GraduationMVVM.MVVM.Views.DevicesPageView"
+             xmlns:viewModels ="clr-namespace:GraduationMVVM.MVVM.Views"
              Title="DevicesPageView">
     <VerticalStackLayout
             Spacing="25"
-            Padding="30,0"
-            VerticalOptions="Center">
+            VerticalOptions="Center" >
 
         <ListView x:Name="Devices_List_View" 
                       HasUnevenRows="True"
-                      >
+                      ItemTapped="Devices_List_View_ItemTapped">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -19,7 +19,7 @@
                             <Label Text="Token" Grid.Row="1" Grid.Column="0" FontSize="Small" HeightRequest="25" HorizontalOptions="Center" VerticalOptions="Center"/>
                             <Label Text="Server" Grid.Row="2" Grid.Column="0" FontSize="Small" HeightRequest="25" HorizontalOptions="Center" VerticalOptions="Center"/>
                             <Label Text="{Binding Name}"  Grid.Row="0" Grid.Column="1" FontSize="Small" HorizontalOptions="Center" VerticalOptions="Center"/>
-                            <Label Text="{Binding Token}" Grid.Row="1" Grid.Column="1" FontSize="Small" HorizontalOptions="Center" VerticalOptions="Center"/>
+                            <Label Text="{Binding Token}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" FontSize="Small" HorizontalOptions="Center" VerticalOptions="Center"/>
                             <Label Text="{Binding Server}" Grid.Row="2" Grid.Column="1" FontSize="Small" HorizontalOptions="Center" VerticalOptions="Center"/>
                             <Button Text="Delete" Grid.Row="2" Grid.Column="2" 
                                     Command="{Binding Source={x:Reference Devices_List_View}, Path=BindingContext.DeleteCommand}" 
