@@ -29,5 +29,10 @@ namespace GraduationMVVM.MVVM.ViewModels
             App.DevicesRepository.DeleteIDItem((int)ID);
             _parent.Refresh();
         }
+        [RelayCommand]
+        public void Settings()
+        {
+            _parent.Settings();
+        }
     }
 }

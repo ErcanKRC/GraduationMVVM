@@ -1,5 +1,6 @@
 ﻿using GraduationMVVM.Abstract;
 using GraduationMVVM.MVVM.Models;
+using GraduationMVVM.MVVM.Views;
 
 namespace GraduationMVVM;
 

@@ -1,37 +1,47 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="GraduationMVVM.MVVM.Views.DevicePageView">
+             x:Class="GraduationMVVM.MVVM.Views.DevicePageView"
+             xmlns:ViewModels ="clr-namespace:GraduationMVVM.MVVM.ViewModels"
+            FlyoutItem.IsVisible ="True">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <ViewModels:StringtoColorConverter x:Key="stringToColor" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <Shell.TitleView>
-        <Grid ColumnDefinitions="*,*">
-            <Label Grid.Column="0" Text="{Binding Name}" HorizontalOptions="Start" VerticalOptions="Center" TextColor="AntiqueWhite" FontAttributes="Bold" FontSize="Medium" />
-            <ImageButton Grid.Column="1" Source="settings_icon.png" BorderColor="AntiqueWhite" Command="{Binding SettingsCommand}" HorizontalOptions="End" VerticalOptions="Center" HeightRequest="25" WidthRequest="25" Margin="15"/>
+        <Grid ColumnDefinitions="*,*,*,*">
+            <Label Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Name}" HorizontalOptions="Start" VerticalOptions="Center" TextColor="AntiqueWhite" FontAttributes="Bold" FontSize="Medium" />
+            <ImageButton Grid.Column="2" Source="dotnet_bot.png" BorderColor="Black" Command="{Binding AddSpecsCommand}" HorizontalOptions="End" VerticalOptions="Center" HeightRequest="25" WidthRequest="25" Margin="15"/>
+            <ImageButton Grid.Column="3" Source="settings_icon.png" BorderColor="Black" Command="{Binding SettingsCommand}" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="25" WidthRequest="25" Margin="15"/>
         </Grid>
     </Shell.TitleView>
 
     <ScrollView>
         <VerticalStackLayout>
-            <HorizontalStackLayout HorizontalOptions="Center">
-                <Label Text="Device Name: "/>
-                <Label Text="{Binding Name}" />
-            </HorizontalStackLayout>
+            <VerticalStackLayout>
+                <HorizontalStackLayout HorizontalOptions="Center">
+                    <Label Text="Device Name: "/>
+                    <Label Text="{Binding Name}" />
+                </HorizontalStackLayout>
 
-            <HorizontalStackLayout HorizontalOptions="Center">
-                <Label Text="Device Token: "/>
-                <Label Text="{Binding Token}"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-            </HorizontalStackLayout>
+                <HorizontalStackLayout HorizontalOptions="Center">
+                    <Label Text="Device Token: "/>
+                    <Label Text="{Binding Token}"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center" />
+                </HorizontalStackLayout>
 
-            <HorizontalStackLayout HorizontalOptions="Center">
-                <Label Text="Device Server: "/>
-                <Label Text="{Binding Server}"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-            </HorizontalStackLayout>
-
-
+                <HorizontalStackLayout HorizontalOptions="Center">
+                    <Label Text="Device Server: "/>
+                    <Label Text="{Binding Server}"
+                               VerticalOptions="Center" 
+                               HorizontalOptions="Center" />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+            <Frame x:Name="isActiveFrame" BackgroundColor="{Binding isActive, Converter={StaticResource Key=stringToColor}}" HeightRequest="20"/>
         </VerticalStackLayout>
-
     </ScrollView>
 </ContentPage>

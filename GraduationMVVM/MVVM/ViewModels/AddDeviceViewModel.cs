@@ -22,7 +22,7 @@ namespace GraduationMVVM.MVVM.ViewModels
         }
 
         [RelayCommand]
-        void Insert()
+         void Insert()
         {
             _parent.Insertdevice();
 
@@ -41,6 +41,8 @@ namespace GraduationMVVM.MVVM.ViewModels
             {
                 isSaved= false;
             }
+
+            _parent.InsertCheck(isSaved);
         }
     }
 }

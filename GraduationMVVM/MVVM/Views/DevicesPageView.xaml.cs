@@ -29,4 +29,8 @@ public partial class DevicesPageView : ContentPage
         _device= (DevicesModel)e.Item; 
         await Navigation.PushAsync(new DevicePageView(_device));
     }
+    public async void Settings()
+    {
+        await Navigation.PushAsync(new AddDeviceView());
+    }
 }

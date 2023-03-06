@@ -51,16 +51,24 @@ public partial class AddDeviceView : ContentPage
             DisplayAlert("Warning", "Please Write a Name", "Ok");
         }
 
-        if (AddDeviceViewModel.isSaved)
+    }
+    async public void InsertCheck(bool isSaved)
+    {
+        if (isSaved)
         {
-            DisplayAlert("Success", "Device Added", "OK");
+            bool state = await DisplayAlert("Success", "Device Added", "OK", "Add More");
             AddDeviceViewModel.isSaved = false;
-            return;
+            if (state)
+            OnSuccesfulInsert();
         }
         else
         {
-            DisplayAlert("Fail", "Device not Added", "OK");
+            await DisplayAlert("Fail", "Device not Added", "OK");
         }
+    }
 
+    public async void OnSuccesfulInsert()
+    {
+        await Navigation.PopToRootAsync();
     }
 }

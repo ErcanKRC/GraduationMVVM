@@ -6,6 +6,7 @@ using PropertyChanged;
 using SQLitePCL;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,7 @@ namespace GraduationMVVM.MVVM.ViewModels
         public string Name { get; set; } 
         public string Server { get; set; }
         public string Token { get; set; }
+        public bool isActive  { get; set; }
 
 
         public DevicePageViewModel(DevicePageView parent,DevicesModel device)
@@ -36,5 +38,28 @@ namespace GraduationMVVM.MVVM.ViewModels
             _parent.Settings();
         }
 
+        [RelayCommand]
+        public void AddSpecs()
+        {
+            _parent.AddSpecs();
+        }
+
+    }
+    public class StringtoColorConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            var isActive = (bool)value;
+
+            if (isActive == true)
+                return Colors.Green;
+            else
+                return Colors.Red;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
