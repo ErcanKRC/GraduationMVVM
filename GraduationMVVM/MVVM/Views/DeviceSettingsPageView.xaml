@@ -2,35 +2,73 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GraduationMVVM.MVVM.Views.DeviceSettingsPageView"
-             Title="DeviceSettingsPageView">
+             xmlns:ViewModels ="clr-namespace:GraduationMVVM.MVVM.ViewModels"
+             xmlns:Converters ="clr-namespace:GraduationMVVM.Converters"
+             x:DataType="ViewModels:DeviceSettingsPageViewModel">
 
+    <ContentPage.BindingContext>
+        <ViewModels:DeviceSettingsPageViewModel/>
+    </ContentPage.BindingContext>
+
+    <Shell.TitleView>
+        <Label  Text="{Binding Path=DevicetoBind.Name,Mode=TwoWay}" HorizontalOptions="Start" VerticalOptions="Center" TextColor="AntiqueWhite" FontAttributes="Bold" FontSize="Medium" />
+    </Shell.TitleView>
+    
     <VerticalStackLayout>
-        
-        <Grid ColumnDefinitions="*,*,2*" RowDefinitions="*,*,*" Margin="5">
-            <Label Grid.Row="0" Grid.Column="0" Text="Device Name: " HorizontalOptions="Start"  VerticalOptions="Center" FontSize="Small" FontAttributes="Bold"/>
-            <Entry Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" x:Name="Entry_Name" Placeholder="Please Enter a Device Name" PlaceholderColor="Gray" HorizontalOptions="Start" FontSize="Small"/>
+        <VerticalStackLayout Margin="10" >
+            <Grid ColumnDefinitions="*,*,2*" RowDefinitions="*,*,*" Margin="5">
+                <Label Grid.Row="0" Grid.Column="0" Text="Device Name: " HorizontalOptions="Start"  VerticalOptions="Center" FontSize="12" FontAttributes="Bold"/>
+                <Entry Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" x:Name="Entry_Name" Text="{Binding Path=DevicetoBind.Name,Mode=TwoWay}" Placeholder="Please Enter a Device Name" PlaceholderColor="Gray" 
+                       HorizontalOptions="StartAndExpand" FontSize="Small"/>
 
-            <Label Grid.Row="1" Grid.Column="0"  Text="Device Token: " HorizontalOptions="Start" VerticalOptions="Center" FontSize="Small" FontAttributes="Bold"/>
-            <Entry Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" x:Name="Entry_Token" Placeholder="Please Enter a Device TOKEN" PlaceholderColor="Gray" HorizontalOptions="Start" FontSize="Small" />
+                <Label Grid.Row="1" Grid.Column="0"  Text="Device Token: " HorizontalOptions="Start" VerticalOptions="Center" FontSize="12" FontAttributes="Bold"/>
+                <Entry Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" x:Name="Entry_Token" Text="{Binding Path=DevicetoBind.Token,Mode=TwoWay}" Placeholder="Please Enter a Device TOKEN" PlaceholderColor="Gray" 
+                       HorizontalOptions="StartAndExpand" FontSize="Small" />
 
-            <Label Grid.Row="2" Grid.Column="0" Text="Device Server: " HorizontalOptions="Start" VerticalOptions="Center" FontSize="Small" FontAttributes="Bold"/>
-            <Picker Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" x:Name="pickerServer"
+                <Label Grid.Row="2" Grid.Column="0" Text="Device Server: " HorizontalOptions="Start" VerticalOptions="Center" FontSize="12" FontAttributes="Bold"/>
+                <Picker Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" x:Name="pickerServer"
                     Title="Please Select a Server"
-                    HorizontalOptions="Start"
-                    VerticalOptions="Center"
+                    HorizontalOptions="StartAndExpand" VerticalOptions="Center"
                     FontSize="Small" FontAttributes="Bold">
-                <Picker.ItemsSource>
-                    <x:Array Type="{x:Type x:String}">
-                        <x:String>fra1.blynk.cloud</x:String>
-                        <x:String>lon1.blynk.cloud</x:String>
-                        <x:String>ny3.blynk.cloud</x:String>
-                        <x:String>sgp1.blynk.cloud</x:String>
-                        <x:String>blr1.blynk.cloud</x:String>
-                    </x:Array>
-                </Picker.ItemsSource>
-            </Picker>
-        </Grid>
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>fra1.blynk.cloud</x:String>
+                            <x:String>lon1.blynk.cloud</x:String>
+                            <x:String>ny3.blynk.cloud</x:String>
+                            <x:String>sgp1.blynk.cloud</x:String>
+                            <x:String>blr1.blynk.cloud</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+            </Grid>
 
-        <Button  Text="Update Device" Command="{Binding UpdateCommand}"/>
+            <Button  Text="Update Device" Command="{Binding UpdateCommand}" Margin="10"/>
+        </VerticalStackLayout>
+
+
+        <VerticalStackLayout>
+            <Frame BackgroundColor="Orange" BorderColor="Transparent">
+                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" Spacing="10">
+                    <Label Text="Add Widgets" FontSize="15" FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalOptions="Center" VerticalTextAlignment="Center"/>
+                    <ImageButton x:Name="AddWidgetsbutton" Source="additem.png" BorderColor="White" Command="{Binding WidgetPageCommand}" 
+                     HorizontalOptions="End" VerticalOptions="Center" HeightRequest="25" WidthRequest="25"/>
+                </HorizontalStackLayout>
+            </Frame>
+            
+
+            <Grid RowDefinitions="*,*,*,*,*" ColumnDefinitions="*,*" RowSpacing="25" Margin="0,15,0,0">
+                <Label Text="Button Count" FontAttributes="Bold" Grid.Column="0" Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center" />
+                <Label Text="{Binding ButtonCount}" Grid.Column="1" Grid.Row="0"/>
+
+                <Label Text="Switch Count" FontAttributes="Bold" Grid.Column="0" Grid.Row="3" HorizontalOptions="Center" VerticalOptions="Center" />
+                <Label Text="{Binding SwitchCount}" Grid.Column="1" Grid.Row="3"/>
+
+                <Label Text="TrackBar Count" FontAttributes="Bold" Grid.Column="0" Grid.Row="1" HorizontalOptions="Center" VerticalOptions="Center" />
+                <Label Text="{Binding TrackBarCount}" Grid.Column="1" Grid.Row="1"/>
+
+                <Label Text="Gauge Count" FontAttributes="Bold" Grid.Column="0" Grid.Row="2" HorizontalOptions="Center" VerticalOptions="Center" />
+                <Label Text="{Binding GaugeCount}" Grid.Column="1" Grid.Row="2"/>
+            </Grid>
+        </VerticalStackLayout>
     </VerticalStackLayout>
 </ContentPage>

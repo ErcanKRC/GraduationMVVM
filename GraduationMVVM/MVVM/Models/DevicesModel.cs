@@ -58,4 +58,6 @@ namespace GraduationMVVM.MVVM.Models
         public string Server { get; set; }
     }
 
+
+
 }

@@ -2,14 +2,9 @@
 using CommunityToolkit.Mvvm.Input;
 using GraduationMVVM.MVVM.Models;
 using GraduationMVVM.MVVM.Views;
+using GraduationMVVM.Services;
 using PropertyChanged;
-using SQLitePCL;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Timers;
 
 namespace GraduationMVVM.MVVM.ViewModels
 {
@@ -17,49 +12,120 @@ namespace GraduationMVVM.MVVM.ViewModels
     [AddINotifyPropertyChangedInterface]
     public partial class DevicePageViewModel : ObservableObject
     {
+        public SelectedDevice DevicetoBind { get; set; }
+        public bool isActive { get; set; }
 
-        private readonly DevicePageView _parent;
-        private DevicesModel _device;
-        public string Name { get; set; } 
-        public string Server { get; set; }
-        public string Token { get; set; }
-        public bool isActive  { get; set; }
+        /*
+        public List<ButtonModel> Buttons { get; set; }
+        public List<SwitchModel> Switches { get; set; }
+        public List<GaugeModel> Gauges { get; set; }
+        public List<SliderModel> Sliders { get; set; }*/
 
-
-        public DevicePageViewModel(DevicePageView parent,DevicesModel device)
+        
+        public DevicePageViewModel()
         {
-            _parent = parent;
-            _device = device;
+            try
+            {
+                BlynkService.Instance.SetBaseAddress(App.SelectedDevice.Server);
+
+                DevicetoBind = App.SelectedDevice;
+
+                SetTimers();
+                GaugeValueTimer.Start();
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         [RelayCommand]
-        public void Settings()
+        public async void Settings()
         {
-            _parent.Settings();
+            await Shell.Current.Navigation.PushAsync(new DeviceSettingsPageView(DevicetoBind));
         }
+        public async Task isActiveRequest()
+        {
+            isActive = await BlynkService.Instance.GetDeviceStatus(App.SelectedDevice);
+        }
+
 
         [RelayCommand]
-        public void AddSpecs()
+        public async void onSwitchToggle(int SwitchId)
         {
-            _parent.AddSpecs();
-        }
+            SwitchModel ToggledSwitch = App.SwitchRepository.Get(SwitchId - 1);
 
-    }
-    public class StringtoColorConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            var isActive = (bool)value;
 
-            if (isActive == true)
-                return Colors.Green;
+            if (ToggledSwitch.IsEnabled == true)
+            {
+                await BlynkService.Instance.UpdateDatastreamValue(DevicetoBind, ToggledSwitch.StreamId, ToggledSwitch.Value0);
+
+                ToggledSwitch.IsEnabled = false;
+                App.SwitchRepository.AddorUpdateItem(ToggledSwitch);
+            }
             else
-                return Colors.Red;
+            {
+                await BlynkService.Instance.UpdateDatastreamValue(DevicetoBind, ToggledSwitch.StreamId, ToggledSwitch.Value1);
+
+                ToggledSwitch.IsEnabled = true;
+                App.SwitchRepository.AddorUpdateItem(ToggledSwitch);
+            }
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+
+        [RelayCommand]
+        public async Task ButtonClicked(int buttonid)
         {
-            throw new NotImplementedException();
+            ButtonModel button = App.ButtonRepository.Get(buttonid - 1);
+            await BlynkService.Instance.UpdateDatastreamValue(DevicetoBind, button.StreamId, button.Value0);
         }
+
+
+        private System.Timers.Timer GaugeValueTimer = new System.Timers.Timer(2000);
+        private void SetTimers()
+        {
+            GaugeValueTimer.Elapsed += OnTimedEvent;
+        }
+        private async void OnTimedEvent(Object source, ElapsedEventArgs e)
+        {
+            if (DevicetoBind.Gauges.Count > 0)
+                foreach (GaugeModel Gauge in App.SelectedDevice.Gauges)
+                {
+
+                    var result = await BlynkService.Instance.GetDataStreamValue(DevicetoBind, Gauge.StreamId);
+
+                    MainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        Gauge.Value = Convert.ToInt16(result);
+                        App.GaugeRepository.AddorUpdateItem(Gauge);
+                        App.Pages.DevicePage.RefreshGauges();
+                       // App.Pages.DevicePage.GaugeAnimate();
+                    });
+                }
+        }
+        [RelayCommand]
+        public void ButtonSettings(int buttonId)
+        {
+            ButtonModel button = App.ButtonRepository.Get(buttonId - 1);
+
+        }
+        [RelayCommand]
+        public void SwitchSettings(int switchId)
+        {
+            SwitchModel switchtoChange = App.SwitchRepository.Get(switchId - 1);
+
+        }
+        [RelayCommand]
+        public void SliderSettings(int Id)
+        {
+
+        }
+        [RelayCommand]
+        public void GaugeSettings(int Id)
+        {
+
+        }
+
     }
+
 }

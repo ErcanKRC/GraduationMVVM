@@ -1,4 +1,3 @@
-using GraduationMVVM.MVVM.Models;
 using GraduationMVVM.MVVM.ViewModels;
 
 
@@ -12,7 +11,8 @@ public partial class AddDeviceView : ContentPage
     public AddDeviceView()
     {
         InitializeComponent();
-        BindingContext = new AddDeviceViewModel(this);
+        App.Pages.AddDevicePage = this;
+        BindingContext = new AddDeviceViewModel();
 
     }
 
@@ -59,7 +59,7 @@ public partial class AddDeviceView : ContentPage
             bool state = await DisplayAlert("Success", "Device Added", "OK", "Add More");
             AddDeviceViewModel.isSaved = false;
             if (state)
-            OnSuccesfulInsert();
+                OnSuccesfulInsert();
         }
         else
         {

@@ -1,36 +1,44 @@
 using GraduationMVVM.MVVM.Models;
 using GraduationMVVM.MVVM.ViewModels;
-using Microsoft.Maui.Controls;
 
 namespace GraduationMVVM.MVVM.Views;
 
 public partial class DevicesPageView : ContentPage
 {
-    DevicesModel _device;
+    DevicesPageViewModel viewModel;
     public DevicesPageView()
     {
         InitializeComponent();
+        App.Pages.DevicesPage = this;
+        viewModel = new DevicesPageViewModel();
+        BindingContext = viewModel;
 
-        BindingContext = new DevicesPageViewModel(this);
     }
 
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        Devices_List_View.ItemsSource = App.DevicesRepository.GetAll();
+
+        if (!App.DevicesRepository.isEmpty())
+            Devices_List_View.ItemsSource = App.DevicesRepository.GetAll();
     }
     public void Refresh()
     {
         Devices_List_View.ItemsSource = App.DevicesRepository.GetAll();
     }
 
-    private async void Devices_List_View_ItemTapped(object sender, ItemTappedEventArgs e)
+    private async void Devices_List_View_ItemSelected(object sender, SelectedItemChangedEventArgs e)
     {
-        _device= (DevicesModel)e.Item; 
-        await Navigation.PushAsync(new DevicePageView(_device));
-    }
-    public async void Settings()
-    {
-        await Navigation.PushAsync(new AddDeviceView());
+        var _device = (DevicesModel)e.SelectedItem;
+        App.SelectedDevice.Name = _device.Name;
+        App.SelectedDevice.Id = _device.Id;
+        App.SelectedDevice.Token = _device.Token;
+        App.SelectedDevice.Server = _device.Server;
+        App.SelectedDevice.Buttons = App.ButtonRepository.GetList(x => x.DeviceId == App.SelectedDevice.Id);
+        App.SelectedDevice.Switchs = App.SwitchRepository.GetList(x => x.DeviceId == App.SelectedDevice.Id);
+        App.SelectedDevice.Gauges = App.GaugeRepository.GetList(x => x.DeviceId == App.SelectedDevice.Id);
+        App.SelectedDevice.TrackBars= App.SliderRepository.GetList(x => x.DeviceId == App.SelectedDevice.Id);
+        await viewModel.ToDevicePage();
+
     }
 }

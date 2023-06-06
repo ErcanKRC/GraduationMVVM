@@ -1,6 +1,5 @@
 ﻿
 using CommunityToolkit.Mvvm.Input;
-using GraduationMVVM.MVVM.Models;
 using GraduationMVVM.MVVM.Views;
 using PropertyChanged;
 using System.ComponentModel;
@@ -10,29 +9,32 @@ namespace GraduationMVVM.MVVM.ViewModels
     [AddINotifyPropertyChangedInterface]
     public partial class DevicesPageViewModel : INotifyPropertyChanged
     {
-
-        private readonly DevicesPageView _parent;
-        public DevicesPageViewModel(DevicesPageView parent)
+        public DevicesPageViewModel()
         {
-            _parent= parent;
+
         }
 
         [RelayCommand]
         public void Refresh()
         {
-            _parent.Refresh();  
+            App.Pages.DevicesPage.Refresh();
         }
 
         [RelayCommand]
         public void Delete(int ID)
         {
             App.DevicesRepository.DeleteIDItem((int)ID);
-            _parent.Refresh();
+            App.Pages.DevicesPage.Refresh();
         }
         [RelayCommand]
-        public void Settings()
+        public async void Settings()
         {
-            _parent.Settings();
+            await Shell.Current.Navigation.PushAsync(new AddDeviceView());
+        }
+
+        public async Task ToDevicePage()
+        {
+            await Shell.Current.Navigation.PushAsync(new DevicePageView());
         }
     }
 }

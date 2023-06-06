@@ -1,75 +1,55 @@
 namespace GraduationMVVM.MVVM.Views;
 
-using Android.App;
 using GraduationMVVM.MVVM.Models;
 using GraduationMVVM.MVVM.ViewModels;
-using Java.Net;
 using Microsoft.Maui.Controls;
-using Xamarin.Google.Crypto.Tink.Shaded.Protobuf;
-using static Android.Bluetooth.BluetoothClass;
+using System.Collections.Generic;
 
 public partial class DevicePageView : ContentPage
 {
-    private DevicePageViewModel viewModel;
-    private DevicesModel _device;
+    private DevicePageViewModel viewModel = new DevicePageViewModel();
 
-    private HttpClient client = new HttpClient();
-    private HttpResponseMessage response= new HttpResponseMessage();
-
-    public DevicePageView(DevicesModel device)
+    public DevicePageView()
     {
         InitializeComponent();
-        _device = device;
-
-        viewModel = new DevicePageViewModel(this,_device);
-        viewModel.Name = _device.Name;
-        viewModel.Server = _device.Server;
-        viewModel.Token= _device.Token;
-        isActiveRequest();
-
+        App.Pages.DevicePage = this;
         BindingContext = viewModel;
     }
 
-    protected override void OnAppearing()
+    protected async override void OnAppearing()
     {
         base.OnAppearing();
+        await viewModel.isActiveRequest();
+
+        if (!App.ButtonRepository.isEmpty())
+            ButtonList.ItemsSource = App.ButtonRepository.GetList(x => x.DeviceId == App.SelectedDevice.Id);
+        if (!App.SwitchRepository.isEmpty())
+            SwitchList.ItemsSource = App.SwitchRepository.GetList(x => x.DeviceId == App.SelectedDevice.Id);
+        if (!App.GaugeRepository.isEmpty())
+            GaugeList.ItemsSource = App.GaugeRepository.GetList(x => x.DeviceId == App.SelectedDevice.Id);
+        if (!App.SliderRepository.isEmpty())
+            SliderList.ItemsSource = App.SliderRepository.GetList(x => x.DeviceId == App.SelectedDevice.Id);
 
     }
-    public async void Settings()
+
+    public void RefreshGauges()
     {
-        await Navigation.PushAsync(new DeviceSettingsPageView(_device));
+        if (!App.GaugeRepository.isEmpty())
+            GaugeList.ItemsSource = App.GaugeRepository.GetList(x => x.DeviceId == App.SelectedDevice.Id);
     }
-    public async void AddSpecs()
+
+    public void SliderAnimate(int id, int value)
     {
-        await Navigation.PushAsync(new DeviceSpecsView());
-    }
-    public async void isActiveRequest()
-    {
-        try
-        {
-            client.BaseAddress = new Uri(_device.Server);
-            response = await client.GetAsync("external/api/isHardwareConnected?token=" + _device.Token);
-        }
-        catch(Exception ex)
-        {
-           await DisplayAlert(Title,"Please Check Server Address","OK");
-        }
+        SliderModel slider = App.SliderRepository.Get(id - 1);
+        slider.Value = value;
+
         
-        if(response.IsSuccessStatusCode)
-        {
-            string result = await response.Content.ReadAsStringAsync();
-            if(result == "true")
-            {
-                viewModel.isActive = true;
-            }
-            else
-            {
-                viewModel.isActive = false;
-            }
-        }
-        else
-        {
-            viewModel.isActive = false;
-        }
+    }
+    public void GaugeAnimate(int id, int value)
+    {
+        GaugeModel gauge = App.GaugeRepository.Get(id - 1);
+        gauge.Value = value;
+
+
     }
 }

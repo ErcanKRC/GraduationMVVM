@@ -1,7 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using GraduationMVVM.MVVM.Views;
-using Microsoft.Maui.Controls;
 using PropertyChanged;
 
 namespace GraduationMVVM.MVVM.ViewModels
@@ -15,18 +13,17 @@ namespace GraduationMVVM.MVVM.ViewModels
 
         public static bool isSaved = false;
 
-        public readonly AddDeviceView _parent;
-        public AddDeviceViewModel(AddDeviceView parent) 
+        public AddDeviceViewModel()
         {
-            _parent = parent;
+
         }
 
         [RelayCommand]
-         void Insert()
+        void Insert()
         {
-            _parent.Insertdevice();
+            App.Pages.AddDevicePage.Insertdevice();
 
-            if(DeviceName != null && DeviceServer != null && DeviceToken != null)
+            if (DeviceName != null && DeviceServer != null && DeviceToken != null)
             {
                 App.DevicesRepository.AddorUpdateItem(new Models.DevicesModel
                 {
@@ -39,10 +36,10 @@ namespace GraduationMVVM.MVVM.ViewModels
             }
             else
             {
-                isSaved= false;
+                isSaved = false;
             }
 
-            _parent.InsertCheck(isSaved);
+            App.Pages.AddDevicePage.InsertCheck(isSaved);
         }
     }
 }

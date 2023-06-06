@@ -2,46 +2,179 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GraduationMVVM.MVVM.Views.DevicePageView"
-             xmlns:ViewModels ="clr-namespace:GraduationMVVM.MVVM.ViewModels"
-            FlyoutItem.IsVisible ="True">
+             xmlns:Converters ="clr-namespace:GraduationMVVM.Converters"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:local="clr-namespace:GraduationMVVM"
+             FlyoutItem.IsVisible ="True"
+              xmlns:mauiControls="clr-namespace:Microsoft.Maui.Controls;assembly=Microsoft.Maui.Controls"
+             >
 
+    <!--
+    xmlns:ViewModels ="clr-namespace:GraduationMVVM.MVVM.ViewModels"
+        xmlns:Models ="clr-namespace:GraduationMVVM.MVVM.Models"
+        x:DataType="ViewModels:DevicePageViewModel"
+    
+    <ContentPage.BindingContext>
+        <ViewModels:DevicePageViewModel/>
+    </ContentPage.BindingContext>
+    -->
     <ContentPage.Resources>
         <ResourceDictionary>
-            <ViewModels:StringtoColorConverter x:Key="stringToColor" />
+            <Converters:StringtoColorConverter x:Key="stringToColor" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
     <Shell.TitleView>
-        <Grid ColumnDefinitions="*,*,*,*">
-            <Label Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Name}" HorizontalOptions="Start" VerticalOptions="Center" TextColor="AntiqueWhite" FontAttributes="Bold" FontSize="Medium" />
-            <ImageButton Grid.Column="2" Source="dotnet_bot.png" BorderColor="Black" Command="{Binding AddSpecsCommand}" HorizontalOptions="End" VerticalOptions="Center" HeightRequest="25" WidthRequest="25" Margin="15"/>
+        <Grid ColumnDefinitions="*,*,*,*" >
+            <Label Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Path=DevicetoBind.Name}" HorizontalOptions="Start" VerticalOptions="Center" TextColor="AntiqueWhite" FontAttributes="Bold" FontSize="Medium" />
             <ImageButton Grid.Column="3" Source="settings_icon.png" BorderColor="Black" Command="{Binding SettingsCommand}" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="25" WidthRequest="25" Margin="15"/>
         </Grid>
     </Shell.TitleView>
 
-    <ScrollView>
+    <StackLayout>
+
         <VerticalStackLayout>
             <VerticalStackLayout>
-                <HorizontalStackLayout HorizontalOptions="Center">
+                <HorizontalStackLayout HorizontalOptions="Center" >
                     <Label Text="Device Name: "/>
-                    <Label Text="{Binding Name}" />
+                    <Label Text="{x:Binding Path=DevicetoBind.Name}" />
                 </HorizontalStackLayout>
 
                 <HorizontalStackLayout HorizontalOptions="Center">
                     <Label Text="Device Token: "/>
-                    <Label Text="{Binding Token}"
+                    <Label Text="{Binding Path=DevicetoBind.Token}"
                                VerticalOptions="Center"
                                HorizontalOptions="Center" />
                 </HorizontalStackLayout>
 
                 <HorizontalStackLayout HorizontalOptions="Center">
                     <Label Text="Device Server: "/>
-                    <Label Text="{Binding Server}"
+                    <Label Text="{Binding Path=DevicetoBind.Server}"
                                VerticalOptions="Center" 
                                HorizontalOptions="Center" />
                 </HorizontalStackLayout>
             </VerticalStackLayout>
             <Frame x:Name="isActiveFrame" BackgroundColor="{Binding isActive, Converter={StaticResource Key=stringToColor}}" HeightRequest="20"/>
         </VerticalStackLayout>
-    </ScrollView>
+
+        <ListView x:Name="ButtonList"
+                  HasUnevenRows="True">
+            <ListView.ItemTemplate>
+                <DataTemplate >
+                    <ViewCell>
+                        
+                        <ViewCell.ContextActions>
+                            <MenuItem IconImageSource="settings_icon.png"  Command="{Binding Source={x:Reference ButtonList}, Path=BindingContext.ButtonSettingsCommand}" CommandParameter="{Binding Id}"/>
+                        </ViewCell.ContextActions>
+                        
+                        <Grid RowSpacing="5" ColumnDefinitions="*,15*,*">
+                            <Button Text="{Binding ButName}" TextColor="Gray" Grid.Column="1"
+                                    Command="{Binding Source={x:Reference ButtonList}, Path=BindingContext.ButtonClickedCommand}" CommandParameter="{Binding Id}" />
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <ListView x:Name="SwitchList"
+                  HasUnevenRows="True">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+
+                        <ViewCell.ContextActions>
+                            <MenuItem IconImageSource="settings_icon.png" Command="{Binding Source={x:Reference SwitchList}, Path=BindingContext.SwitchSettingsCommand}" CommandParameter="{Binding Id}"/>
+                        </ViewCell.ContextActions>
+                        
+                        <Grid ColumnDefinitions="*,*">
+                            <Label Text="{Binding SwName}" 
+                                   VerticalOptions="Center" HorizontalOptions="Center"
+                                   Grid.Column="0"/>
+                            <Switch VerticalOptions="Center" HorizontalOptions="Center"
+                                    OnColor="Green" BackgroundColor="Transparent" 
+                                    Grid.Column="1">
+                                <Switch.Behaviors>
+                                    <toolkit:EventToCommandBehavior 
+                                        EventName="Toggled" Command="{Binding Source={x:Reference SwitchList}, Path=BindingContext.onSwitchToggleCommand}" CommandParameter="{Binding Id}"/>
+                                </Switch.Behaviors>
+                            </Switch>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <ListView x:Name="GaugeList" 
+                  HasUnevenRows="True">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+
+                        <ViewCell.ContextActions>
+                            <MenuItem IconImageSource="settings_icon.png" Command="{Binding GaugeSettingsCommand}" CommandParameter="{Binding Id}"/>
+                        </ViewCell.ContextActions>
+
+                        <Grid ColumnDefinitions="3*,2*,*,10*,*">
+                            <Label Text="{Binding GaugeName}" 
+                                   Grid.Column="0" 
+                                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+
+                            <Label Text="{Binding Value}" 
+                                   Grid.Column="1" 
+                                   HorizontalTextAlignment="End" VerticalTextAlignment="Center"/>
+
+                            <Label Text="{Binding Value0}" 
+                                   Grid.Column="2" 
+                                   HorizontalTextAlignment="End" VerticalTextAlignment="Center"/>
+                            <Slider x:Name="GaugeLevel"  Minimum="{Binding Value0}" Maximum="{Binding Value1}" Value="{Binding Value}"
+                                    Grid.Column="3" 
+                                    VerticalOptions="Center"/>
+                            <Label Text="{Binding Value1}" 
+                                   Grid.Column="4" 
+                                   HorizontalTextAlignment="Start" VerticalTextAlignment="Center"/>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <ListView x:Name="SliderList"
+                  HasUnevenRows="True">
+            <ListView.ItemTemplate>
+                <DataTemplate >
+                    <ViewCell>
+
+                        <ViewCell.ContextActions>
+                            <MenuItem IconImageSource="settings_icon.png" Command="{Binding SliderSettingsCommand}" CommandParameter="{Binding Id}"/>
+                        </ViewCell.ContextActions>
+
+                        <Grid ColumnDefinitions="3*,2*,*,10*,*">
+                            <Label Text="{Binding GaugeName}" 
+                                   Grid.Column="0" 
+                                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+
+                            <Label Text="{Binding Value}" 
+                                   Grid.Column="1" 
+                                   HorizontalTextAlignment="End" VerticalTextAlignment="Center"/>
+
+                            <Label Text="{Binding Value0}" 
+                                   Grid.Column="2" 
+                                   HorizontalTextAlignment="End" VerticalTextAlignment="Center"/>
+
+                            <Slider Minimum="{Binding Value0}" Maximum="{Binding Value1}" Value="{Binding Value,Mode=TwoWay}"
+                                    Grid.Column="3" FlowDirection="LeftToRight" IsVisible="true" 
+                                    VerticalOptions="Center"/>
+
+                            <Label Text="{Binding Value1}" 
+                                   Grid.Column="4" 
+                                   HorizontalTextAlignment="Start" VerticalTextAlignment="Center"/>
+
+                           
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+    </StackLayout>
 </ContentPage>

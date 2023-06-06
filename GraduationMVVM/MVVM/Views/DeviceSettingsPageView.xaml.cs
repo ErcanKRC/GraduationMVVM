@@ -1,6 +1,4 @@
-using GraduationMVVM.MVVM.Models;
 using GraduationMVVM.MVVM.ViewModels;
-using Microsoft.Maui.Controls;
 
 namespace GraduationMVVM.MVVM.Views;
 
@@ -8,40 +6,46 @@ public partial class DeviceSettingsPageView : ContentPage
 {
 
     private DeviceSettingsPageViewModel viewModel;
-    private DevicesModel _device;
-    public DeviceSettingsPageView(DevicesModel device)
-	{
-		InitializeComponent();
-        
+    private Models.SelectedDevice _device;
+    public DeviceSettingsPageView(Models.SelectedDevice device)
+    {
+        InitializeComponent();
+
         _device = device;
-        viewModel = new DeviceSettingsPageViewModel(this , _device);
+        App.Pages.DeviceSettingsPage = this;
+        viewModel = new DeviceSettingsPageViewModel();
 
         BindingContext = viewModel;
-
-        Entry_Name.Text = _device.Name;
-        Entry_Token.Text = _device.Token;
-        pickerServer.SelectedItem = _device.Server; 
     }
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
 
+        viewModel.RefreshWidgets();
+    }
     public void Update()
     {
         if (Entry_Token.Text != null)
         {
-            DeviceSettingsPageViewModel.DeviceToken = Entry_Token.Text;
+            viewModel.DevicetoBind.Token = Entry_Token.Text;
         }
-        
+        else
+        {
+            DisplayAlert("Warning", "Please Select A Server", "Ok");
+        }
+
         if (pickerServer.SelectedItem == null)
         {
             DisplayAlert("Warning", "Please Select A Server", "Ok");
         }
         else
         {
-            DeviceSettingsPageViewModel.DeviceServer ="https://" + pickerServer.SelectedItem.ToString() + "/";
+            viewModel.DevicetoBind.Server = "https://" + pickerServer.SelectedItem.ToString() + "/";
         }
 
         if (Entry_Name.Text != null)
         {
-            DeviceSettingsPageViewModel.DeviceName = Entry_Name.Text;
+            viewModel.DevicetoBind.Name = Entry_Name.Text;
         }
         else
         {
