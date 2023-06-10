@@ -1,10 +1,13 @@
-﻿namespace GraduationMVVM.MVVM.Models
+﻿using PropertyChanged;
+using System.Collections.ObjectModel;
+
+namespace GraduationMVVM.MVVM.Models
 {
     public class SelectedDevice : DevicesModel
     {
-        public List<ButtonModel> Buttons { get; set; }
-        public List<SwitchModel> Switchs { get; set; }
-        public List<GaugeModel> Gauges { get; set; }
-        public List<SliderModel> TrackBars { get; set; }
+        public ObservableCollection<ButtonModel> Buttons { get; set; }
+        public ObservableCollection<SwitchModel> Switchs { get; set; }
+        public ObservableCollection<GaugeModel> Gauges { get; set; }
+        public ObservableCollection<SliderModel> Sliders { get; set; }
     }
 }

@@ -18,7 +18,7 @@ public partial class AddDeviceView : ContentPage
 
     public void Insertdevice()
     {
-        if (Entry_Token.Text != null)
+        if (Entry_Token.Text != null && Entry_Token.Text != "")
         {
             AddDeviceViewModel.DeviceToken = Entry_Token.Text;
         }
@@ -38,8 +38,7 @@ public partial class AddDeviceView : ContentPage
         }
         else
         {
-            server = "https://" + pickerServer.SelectedItem.ToString() + "/";
-            AddDeviceViewModel.DeviceServer = server;
+            AddDeviceViewModel.DeviceServer = pickerServer.SelectedItem.ToString();
         }
 
         if (Entry_Name.Text != null)
@@ -52,23 +51,5 @@ public partial class AddDeviceView : ContentPage
         }
 
     }
-    async public void InsertCheck(bool isSaved)
-    {
-        if (isSaved)
-        {
-            bool state = await DisplayAlert("Success", "Device Added", "OK", "Add More");
-            AddDeviceViewModel.isSaved = false;
-            if (state)
-                OnSuccesfulInsert();
-        }
-        else
-        {
-            await DisplayAlert("Fail", "Device not Added", "OK");
-        }
-    }
 
-    public async void OnSuccesfulInsert()
-    {
-        await Navigation.PopToRootAsync();
-    }
 }

@@ -1,4 +1,5 @@
 ﻿using GraduationMVVM.Abstract;
+using PropertyChanged;
 
 /* Unmerged change from project 'GraduationMVVM (net6.0-android)'
 Before:
@@ -47,10 +48,10 @@ using SQLite;
 After:
 using System.Threading.Tasks;
 */
-
 
 namespace GraduationMVVM.MVVM.Models
 {
+    [AddINotifyPropertyChangedInterface]
     public class DevicesModel : TableData
     {
         public string Name { get; set; }

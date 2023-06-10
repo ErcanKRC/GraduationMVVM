@@ -39,7 +39,22 @@ namespace GraduationMVVM.MVVM.ViewModels
                 isSaved = false;
             }
 
-            App.Pages.AddDevicePage.InsertCheck(isSaved);
+            InsertCheck(isSaved);
+        }
+
+        public async void InsertCheck(bool isSaved)
+        {
+            if (isSaved)
+            {
+                bool state = await Shell.Current.DisplayAlert("Success", "Device Added", "OK", "Add More");
+                AddDeviceViewModel.isSaved = false;
+                if (state)
+                    await Shell.Current.Navigation.PopToRootAsync();
+            }
+            else
+            {
+                await Shell.Current.DisplayAlert("Fail", "Device not Added", "OK");
+            }
         }
     }
 }

@@ -4,177 +4,178 @@
              x:Class="GraduationMVVM.MVVM.Views.DevicePageView"
              xmlns:Converters ="clr-namespace:GraduationMVVM.Converters"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:ViewModels ="clr-namespace:GraduationMVVM.MVVM.ViewModels"
+             xmlns:Models ="clr-namespace:GraduationMVVM.MVVM.Models"
+             x:DataType="ViewModels:DevicePageViewModel"
              xmlns:local="clr-namespace:GraduationMVVM"
-             FlyoutItem.IsVisible ="True"
              xmlns:gauge="clr-namespace:Syncfusion.Maui.Gauges;assembly=Syncfusion.Maui.Gauges"
-             >
+             FlyoutItem.IsVisible ="True">
 
-    <!--
-    xmlns:ViewModels ="clr-namespace:GraduationMVVM.MVVM.ViewModels"
-        xmlns:Models ="clr-namespace:GraduationMVVM.MVVM.Models"
-        x:DataType="ViewModels:DevicePageViewModel"
+    
+    
     
     <ContentPage.BindingContext>
         <ViewModels:DevicePageViewModel/>
     </ContentPage.BindingContext>
-    -->
+    
     <ContentPage.Resources>
         <ResourceDictionary>
             <Converters:StringtoColorConverter x:Key="stringToColor" />
+            <Converters:StateConverter x:Key="StateCheck"/>
         </ResourceDictionary>
     </ContentPage.Resources>
 
     <Shell.TitleView>
         <Grid ColumnDefinitions="*,*,*,*" >
             <Label Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Path=DevicetoBind.Name}" HorizontalOptions="Start" VerticalOptions="Center" TextColor="AntiqueWhite" FontAttributes="Bold" FontSize="Medium" />
-            <ImageButton Grid.Column="3" Source="settings_icon.png" BorderColor="Black" Command="{Binding SettingsCommand}" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="25" WidthRequest="25" Margin="15"/>
+            <ImageButton Grid.Column="3" Source="settings_icon.png" BorderColor="Black" Command="{Binding DeviceSettingsCommand}" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="25" WidthRequest="25" Margin="15"/>
         </Grid>
     </Shell.TitleView>
 
-    <StackLayout>
+    
+    <ScrollView>
+        <VerticalStackLayout Spacing="10">
+            <Frame BackgroundColor="LightGray" Margin="5" >
+                <Grid ColumnDefinitions="3*,7*,2*" RowDefinitions="*,*,*">
 
-        <VerticalStackLayout>
-            <VerticalStackLayout>
-                <HorizontalStackLayout HorizontalOptions="Center" >
-                    <Label Text="Device Name: "/>
-                    <Label Text="{x:Binding Path=DevicetoBind.Name}" />
-                </HorizontalStackLayout>
+                    <Label Text="Device Name: " VerticalOptions="Center"
+                   Grid.Column="0" Grid.Row="0"/>
+                    <Label Text="{x:Binding Path=DevicetoBind.Name}"  VerticalOptions="Center" HorizontalOptions="Center"
+                   Grid.Column="1" Grid.Row="0"/>
 
-                <HorizontalStackLayout HorizontalOptions="Center">
-                    <Label Text="Device Token: "/>
-                    <Label Text="{Binding Path=DevicetoBind.Token}"
-                               VerticalOptions="Center"
-                               HorizontalOptions="Center" />
-                </HorizontalStackLayout>
+                    <Label Text="Device Token: "
+                   Grid.Column="0" Grid.Row="1"/>
+                    <Label Text="{Binding Path=DevicetoBind.Token}" VerticalOptions="Center" HorizontalOptions="Center" 
+                   Grid.Column="1" Grid.Row="1"/>
 
-                <HorizontalStackLayout HorizontalOptions="Center">
-                    <Label Text="Device Server: "/>
-                    <Label Text="{Binding Path=DevicetoBind.Server}"
-                               VerticalOptions="Center" 
-                               HorizontalOptions="Center" />
-                </HorizontalStackLayout>
-            </VerticalStackLayout>
-            <Frame x:Name="isActiveFrame" BackgroundColor="{Binding isActive, Converter={StaticResource Key=stringToColor}}" HeightRequest="20"/>
+                    <Label Text="Device Server: "
+                   Grid.Column="0" Grid.Row="2"/>
+                    <Label Text="{Binding Path=DevicetoBind.Server}" VerticalOptions="Center" HorizontalOptions="Center" 
+                   Grid.Column="1" Grid.Row="2"/>
+
+                    <Label Text="{Binding IsActive, Converter={StaticResource Key=StateCheck}}" TextColor="{Binding IsActive, Converter={StaticResource Key=stringToColor}}" FontAttributes="Bold" FontSize="Small" 
+                    BackgroundColor="Transparent" IsEnabled="False" 
+                    Grid.Column="3" Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center"/>
+                </Grid>
+            </Frame>
+
+            <ListView x:Name="ButtonList" 
+                      ItemsSource="{Binding Path=DevicetoBind.Buttons}"
+                      VerticalScrollBarVisibility="Never" 
+                      HasUnevenRows="True"
+                      SeparatorColor="Transparent"
+                      Margin="10">
+                <ListView.ItemTemplate >
+                    <DataTemplate x:DataType="Models:ButtonModel" >
+                        <ViewCell>
+                            <VerticalStackLayout>
+                                <Grid  ColumnDefinitions="*,15*,*">
+                                    <Button Text="{Binding ButName}" TextColor="White" Grid.Column="1" VerticalOptions="Center" BackgroundColor="MediumPurple" CornerRadius="20"
+                                Command="{Binding Source={x:Reference ButtonList}, Path=BindingContext.ButtonClickedCommand}" CommandParameter="{Binding Id}" />
+                                </Grid>
+                            </VerticalStackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <ListView x:Name="SwitchList" 
+                      ItemsSource="{Binding Path=DevicetoBind.Switchs}"
+                      HasUnevenRows="True" 
+                      SeparatorColor="Transparent" 
+                      VerticalScrollBarVisibility="Never" 
+                      Margin="5">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="Models:SwitchModel">
+                        <ViewCell>
+                            <VerticalStackLayout Spacing="5">
+                                <Frame BackgroundColor="LightGray" CornerRadius="20" >
+                                    <Grid ColumnDefinitions="*,*">
+                                        <Label Text="{Binding SwName}" VerticalOptions="Center" HorizontalOptions="Center" Grid.Column="0"/>
+                                        <Switch VerticalOptions="Center" HorizontalOptions="Center"  BackgroundColor="Transparent" Grid.Column="1" OnColor="MediumPurple" IsToggled="{Binding IsEnabled}">
+                                            <Switch.Behaviors>
+                                                <toolkit:EventToCommandBehavior EventName="Toggled" Command="{Binding Source={x:Reference SwitchList}, Path=BindingContext.SwitchToggleCommand}" CommandParameter="{Binding Id}"/>
+                                            </Switch.Behaviors>
+                                        </Switch>
+                                    </Grid>
+                                </Frame>
+                            </VerticalStackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <ListView x:Name="GaugeList" 
+                      ItemsSource="{Binding Path=DevicetoBind.Gauges}"
+                      HasUnevenRows="True" 
+                      IsEnabled="False" 
+                      SeparatorColor="Transparent" 
+                      VerticalScrollBarVisibility="Never" 
+                      Margin="5">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="Models:GaugeModel">
+                        <ViewCell>
+                            <VerticalStackLayout>
+                                <Frame BackgroundColor="LightGray" CornerRadius="20">
+                                    <VerticalStackLayout>
+                                        <Label Text="{Binding GaugeName}" Grid.Column="0" 
+                                               HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                                        <Grid ColumnDefinitions="*,*,5*,*,*" RowDefinitions="*,*">
+                                            <Label Text="{Binding Value0}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+                                                   Grid.Column="0" Grid.Row="1" />
+                                            <Slider x:Name="GaugeLevel"  
+                                                    Minimum="{Binding Value0}" Maximum="{Binding Value1}" Value="{Binding Value}" MaximumTrackColor="Red" MinimumTrackColor="Green" 
+                                                    Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="1" IsEnabled="True" VerticalOptions="Center" />
+                                            <Label Text="{Binding Value1}"  HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
+                                                   Grid.Column="4" Grid.Row="1"/>
+                                        </Grid>
+                                        <Label Text="{Binding Value,Mode=TwoWay}"  Grid.Column="1" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                                    </VerticalStackLayout>
+                                </Frame>
+                            </VerticalStackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <ListView x:Name="SliderList" 
+                      ItemsSource="{Binding Path=DevicetoBind.Sliders}"
+                      HasUnevenRows="True"
+                      IsEnabled="True"
+                      SeparatorColor="Transparent" 
+                      VerticalScrollBarVisibility="Never" 
+                      Margin="5">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="Models:SliderModel">
+                        <ViewCell>
+                            <VerticalStackLayout>
+                                <Frame BackgroundColor="LightGray" CornerRadius="20">
+                                    <VerticalStackLayout>
+                                        <Label Text="{Binding SliderName}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                                        <Grid ColumnDefinitions="*,*,5*,*,*">
+
+                                            <Label Text="{Binding Value0}" Grid.Column="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+
+                                            <Slider Minimum="{Binding Value0}" Maximum="{Binding Value1}" Value="{Binding Value,Mode=TwoWay}" FlowDirection="LeftToRight" 
+                                                    Grid.Column="1" Grid.ColumnSpan="3" 
+                                                    VerticalOptions="Center">
+                                                <Slider.Behaviors>
+                                                    <toolkit:EventToCommandBehavior EventName="DragCompleted" Command="{Binding Source={x:Reference SliderList}, Path=BindingContext.SliderValueChangedCommand}" CommandParameter="{Binding Id}"/>
+                                                </Slider.Behaviors>
+                                            </Slider>
+
+                                            <Label Text="{Binding Value1}" Grid.Column="4" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"/>
+                                        </Grid>
+                                        <Label Text="{Binding Value, Mode=TwoWay}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                                    </VerticalStackLayout>
+                                </Frame>
+                            </VerticalStackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
         </VerticalStackLayout>
 
-        <ListView x:Name="ButtonList"
-                  HasUnevenRows="True">
-            <ListView.ItemTemplate>
-                <DataTemplate >
-                    <ViewCell>
-                        
-                        <ViewCell.ContextActions>
-                            <MenuItem IconImageSource="settings_icon.png"  Command="{Binding Source={x:Reference ButtonList}, Path=BindingContext.ButtonSettingsCommand}" CommandParameter="{Binding Id}"/>
-                        </ViewCell.ContextActions>
-                        
-                        <Grid RowSpacing="5" ColumnDefinitions="*,15*,*">
-                            <Button Text="{Binding ButName}" TextColor="Gray" Grid.Column="1"
-                                    Command="{Binding Source={x:Reference ButtonList}, Path=BindingContext.ButtonClickedCommand}" CommandParameter="{Binding Id}" />
-                        </Grid>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-
-        <ListView x:Name="SwitchList"
-                  HasUnevenRows="True">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-
-                        <ViewCell.ContextActions>
-                            <MenuItem IconImageSource="settings_icon.png" Command="{Binding Source={x:Reference SwitchList}, Path=BindingContext.SwitchSettingsCommand}" CommandParameter="{Binding Id}"/>
-                        </ViewCell.ContextActions>
-                        
-                        <Grid ColumnDefinitions="*,*">
-                            <Label Text="{Binding SwName}" 
-                                   VerticalOptions="Center" HorizontalOptions="Center"
-                                   Grid.Column="0"/>
-                            <Switch VerticalOptions="Center" HorizontalOptions="Center"
-                                    OnColor="Green" BackgroundColor="Transparent" 
-                                    Grid.Column="1">
-                                <Switch.Behaviors>
-                                    <toolkit:EventToCommandBehavior 
-                                        EventName="Toggled" Command="{Binding Source={x:Reference SwitchList}, Path=BindingContext.onSwitchToggleCommand}" CommandParameter="{Binding Id}"/>
-                                </Switch.Behaviors>
-                            </Switch>
-                        </Grid>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-
-        <ListView x:Name="GaugeList" 
-                  HasUnevenRows="True">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-
-                        <ViewCell.ContextActions>
-                            <MenuItem IconImageSource="settings_icon.png" Command="{Binding GaugeSettingsCommand}" CommandParameter="{Binding Id}"/>
-                        </ViewCell.ContextActions>
-
-                        <Grid ColumnDefinitions="3*,2*,*,10*,*">
-                            <Label Text="{Binding GaugeName}" 
-                                   Grid.Column="0" 
-                                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
-
-                            <Label Text="{Binding Value}" 
-                                   Grid.Column="1" 
-                                   HorizontalTextAlignment="End" VerticalTextAlignment="Center"/>
-
-                            <Label Text="{Binding Value0}" 
-                                   Grid.Column="2" 
-                                   HorizontalTextAlignment="End" VerticalTextAlignment="Center"/>
-                            <Slider x:Name="GaugeLevel"  Minimum="{Binding Value0}" Maximum="{Binding Value1}" Value="{Binding Value}"
-                                    Grid.Column="3" 
-                                    VerticalOptions="Center"/>
-                            <Label Text="{Binding Value1}" 
-                                   Grid.Column="4" 
-                                   HorizontalTextAlignment="Start" VerticalTextAlignment="Center"/>
-                        </Grid>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-
-        <ListView x:Name="SliderList"
-                  HasUnevenRows="True">
-            <ListView.ItemTemplate>
-                <DataTemplate >
-                    <ViewCell>
-
-                        <ViewCell.ContextActions>
-                            <MenuItem IconImageSource="settings_icon.png" Command="{Binding SliderSettingsCommand}" CommandParameter="{Binding Id}"/>
-                        </ViewCell.ContextActions>
-
-                        <Grid ColumnDefinitions="3*,2*,*,10*,*">
-                            <Label Text="{Binding GaugeName}" 
-                                   Grid.Column="0" 
-                                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
-
-                            <Label Text="{Binding Value}" 
-                                   Grid.Column="1" 
-                                   HorizontalTextAlignment="End" VerticalTextAlignment="Center"/>
-
-                            <Label Text="{Binding Value0}" 
-                                   Grid.Column="2" 
-                                   HorizontalTextAlignment="End" VerticalTextAlignment="Center"/>
-
-                            <Slider Minimum="{Binding Value0}" Maximum="{Binding Value1}" Value="{Binding Value,Mode=TwoWay}"
-                                    Grid.Column="3" FlowDirection="LeftToRight" IsVisible="true" 
-                                    VerticalOptions="Center"/>
-
-                            <Label Text="{Binding Value1}" 
-                                   Grid.Column="4" 
-                                   HorizontalTextAlignment="Start" VerticalTextAlignment="Center"/>
-
-                           
-                        </Grid>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-
-    </StackLayout>
+    </ScrollView>
 </ContentPage>

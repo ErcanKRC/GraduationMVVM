@@ -6,13 +6,12 @@ public partial class DeviceSettingsPageView : ContentPage
 {
 
     private DeviceSettingsPageViewModel viewModel;
-    private Models.SelectedDevice _device;
-    public DeviceSettingsPageView(Models.SelectedDevice device)
+    public DeviceSettingsPageView()
     {
         InitializeComponent();
 
-        _device = device;
         App.Pages.DeviceSettingsPage = this;
+
         viewModel = new DeviceSettingsPageViewModel();
 
         BindingContext = viewModel;
@@ -40,7 +39,7 @@ public partial class DeviceSettingsPageView : ContentPage
         }
         else
         {
-            viewModel.DevicetoBind.Server = "https://" + pickerServer.SelectedItem.ToString() + "/";
+            viewModel.DevicetoBind.Server = pickerServer.SelectedItem.ToString();
         }
 
         if (Entry_Name.Text != null)

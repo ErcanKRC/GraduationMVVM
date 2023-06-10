@@ -26,9 +26,10 @@ public partial class AddWidgetPage : ContentPage
             case "Gauge":
                 viewModel.WidgetType = "Gauge";
                 break;
-            case "TrackBar":
-                viewModel.WidgetType = "TrackBar";
+            case "Slider":
+                viewModel.WidgetType = "Slider";
                 break;
         };
+
     }
 }

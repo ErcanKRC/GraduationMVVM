@@ -2,8 +2,12 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GraduationMVVM.MVVM.Views.DevicesPageView"
-             xmlns:viewModels ="clr-namespace:GraduationMVVM.MVVM.Views"
-             Title="DevicesPageView">
+             xmlns:view ="clr-namespace:GraduationMVVM.MVVM.Views"
+             xmlns:Models ="clr-namespace:GraduationMVVM.MVVM.Models"
+             xmlns:viewModels ="clr-namespace:GraduationMVVM.MVVM.ViewModels"
+             xmlns:Converters ="clr-namespace:GraduationMVVM.Converters"
+             
+             Title="Devices">
 
     <Shell.TitleView>
         <Grid ColumnDefinitions="*,*">
@@ -11,52 +15,55 @@
             <ImageButton Grid.Column="1" Source="additem.png" BorderColor="Black" Command="{Binding SettingsCommand}" HorizontalOptions="End" VerticalOptions="Center" HeightRequest="25" WidthRequest="25" Margin="15"/>
         </Grid>
     </Shell.TitleView>
-    
-    <VerticalStackLayout
-            Spacing="25"
-            VerticalOptions="Center" >
 
-        <ListView x:Name="Devices_List_View" 
-                      HasUnevenRows="True"
-                  ItemSelected="Devices_List_View_ItemSelected">
+    <ContentPage.BindingContext>
+        <viewModels:DevicesPageViewModel/>
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Converters:StringtoColorConverter x:Key="stringToColor" />
+            <Converters:StateConverter x:Key="StateCheck"/>
+            <Converters:FrameListColorConverter x:Key="FrameColor"/>
+            <Converters:FrameListTextColorConverter x:Key="TextColor"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <StackLayout >
+
+        <ListView ItemsSource="{Binding DevicestoList}"
+                  HasUnevenRows="True"
+                  ItemSelected="Devices_List_View_ItemSelected"
+                  SeparatorVisibility="None" 
+                  HorizontalOptions="Center"
+                  FlexLayout.AlignSelf="Auto"
+                  VerticalOptions="FillAndExpand"
+                  VerticalScrollBarVisibility="Default"
+                  >
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <ViewCell>
-                        <Grid RowDefinitions="*,*,*" IsVisible="true" ColumnSpacing="5" Padding="10">
-                            <StackLayout Orientation="Horizontal" Grid.Row="0">
-                                <Label Text="Name: "  Grid.Row="0" Grid.Column="0" 
-                                   FontAutoScalingEnabled="True"
-                                   HorizontalOptions="Center" VerticalOptions="Center" />
-                                <Label Text="{Binding Name}"  Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="4"
-                                   FontAutoScalingEnabled="True"
-                                   HorizontalOptions="Center" VerticalOptions="Center"/>
-                            </StackLayout>
+                    <ViewCell >
+                        <VerticalStackLayout>
+                            <Frame BorderColor="Black" BackgroundColor="{Binding Id, Converter={StaticResource Key=FrameColor}}" CornerRadius="30" Margin="5">
+                                <Grid RowDefinitions="Auto, Auto, Auto, Auto" ColumnDefinitions="*, *, *, *, *" RowSpacing="15">
 
-                            <StackLayout Orientation="Horizontal" Grid.Row="1">
-                                <Label Text="Token: " 
-                                       FontSize="Small"
-                                   HorizontalOptions="Center" VerticalOptions="Center"/>
-                                <Label Text="{Binding Token}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" 
-                                   FontAutoScalingEnabled="True"
-                                   HorizontalOptions="Center" VerticalOptions="Center"/>
-                            </StackLayout>
+                                    <Label Grid.Row="0" Grid.Column="0" Text="Name: " TextColor="{Binding Id, Converter={StaticResource Key=TextColor}}" FontAttributes="Bold" HorizontalOptions="End"/>
+                                    <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="10" Text="{Binding Name}" TextColor="{Binding Id, Converter={StaticResource Key=TextColor}}" FontAttributes="Bold" HorizontalOptions="Start"/>
 
-                            <StackLayout Orientation="Horizontal" Grid.Row="2">
-                                <Label Text="Server: " FontSize="Small"
-                                       HorizontalOptions="Center" VerticalOptions="Center"/>
-                                <Label Text="{Binding Server}"
-                                       FontAutoScalingEnabled="True"
-                                       HorizontalOptions="Center" VerticalOptions="Center"/>
-                                <Button Text="Delete" Margin="100,0,0,0"
-                                        Command="{Binding Source={x:Reference Devices_List_View}, Path=BindingContext.ConnectCommand}" 
-                                        CommandParameter="{Binding ID}" />
-                            </StackLayout>
-                        </Grid>
+                                    <Image Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="10" Source="nodemcu.png" MaximumHeightRequest="75"/>
+
+                                    <Label Grid.Row="2" Grid.Column="0" Text="Token: " TextColor="{Binding Id, Converter={StaticResource Key=TextColor}}" FontAttributes="Bold"  HorizontalOptions="End"/>
+                                    <Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="10" Text="{Binding Token}"  TextColor="{Binding Id, Converter={StaticResource Key=TextColor}}" HorizontalOptions="Start"/>
+
+                                    <Label Grid.Row="3" Grid.Column="0" Text="Server: " TextColor="{Binding Id, Converter={StaticResource Key=TextColor}}" FontAttributes="Bold" HorizontalOptions="End"/>
+                                    <Label Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="10" Text="{Binding Server}" TextColor="{Binding Id, Converter={StaticResource Key=TextColor}}" HorizontalOptions="Start"/>
+                                </Grid>
+                            </Frame>
+                        </VerticalStackLayout>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
 
-        <Button x:Name="Button_Refresh" Text="Refresh" Command="{Binding RefreshCommand}" />
-    </VerticalStackLayout>
+    </StackLayout>
 </ContentPage>

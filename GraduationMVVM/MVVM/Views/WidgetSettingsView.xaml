@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GraduationMVVM.MVVM.Views.WidgetSettingsView">
+
+    <Shell.TitleView>
+        <Grid ColumnDefinitions="*,*">
+            <Label Grid.Column="0" Text="{Binding WidgetName, StringFormat='{0} Settings'}" HorizontalOptions="Start" VerticalOptions="Center" TextColor="AntiqueWhite" FontAttributes="Bold" FontSize="Medium" />
+            <Button Grid.Column="1" Text="Delete Widget" Command="{Binding DeleteWidgetCommand}" HorizontalOptions="End" VerticalOptions="Center" TextColor="White" BackgroundColor="Red" FontAttributes="Bold" Margin="0,0,15,0"/>
+        </Grid>
+    </Shell.TitleView>
+
+    <StackLayout VerticalOptions="Center">
+        
+        <Frame BorderColor="Gray" Margin="5" CornerRadius="25" VerticalOptions="Center">
+                <VerticalStackLayout >
+                    <Frame BackgroundColor="LightGray"  CornerRadius="20">
+                        <Grid ColumnDefinitions="*,3*" RowDefinitions="*,*,*,*,*">
+                            <Label Text=" Widget Type:" FontSize="Small" 
+                       VerticalOptions="Center" HorizontalOptions="Center"
+                       Grid.Row="0" Grid.Column="0" />
+
+                            <Picker x:Name="WidgetTypePicker"
+                    Title="Type of Widget"
+                    FontSize="Small" FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
+                    HorizontalOptions="Center" VerticalOptions="Center"
+                    Grid.Row="0" Grid.Column="1"
+                        SelectedItem="{Binding WidgetType}"
+                        IsEnabled="False">
+                                <Picker.ItemsSource>
+                                    <x:Array Type="{x:Type x:String}">
+                                        <x:String>Button</x:String>
+                                        <x:String>Switch</x:String>
+                                        <x:String>Gauge</x:String>
+                                        <x:String>TrackBar</x:String>
+                                    </x:Array>
+                                </Picker.ItemsSource>
+                            </Picker>
+
+                            <Label Text="Name:" FontSize="Medium" 
+                       VerticalOptions="Center" HorizontalOptions="Center"
+                       Grid.Row="1" Grid.Column="0"/>
+                            <Entry Placeholder="Name of Widget" FontSize="Medium" 
+                       VerticalOptions="Center" HorizontalOptions="Center"  VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
+                       Grid.Row="1" Grid.Column="1" Text="{Binding WidgetName}"/>
+
+                            <Label Text="StreamId:" FontSize="Medium" 
+                       VerticalOptions="Center" HorizontalOptions="Center"
+                       Grid.Row="2" Grid.Column="0"/>
+                            <Entry Placeholder="StreamId of Widget" FontSize="Medium" Keyboard="Numeric"
+                       VerticalOptions="Center" HorizontalOptions="Center" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
+                       Grid.Row="2" Grid.Column="1" Text="{Binding StreamId}"/>
+
+                            <Label Text="Value0:" FontSize="Medium" 
+                       VerticalOptions="Center" HorizontalOptions="Center"
+                       Grid.Row="3" Grid.Column="0"/>
+                            <Entry Placeholder="Value0 of Widget" FontSize="Medium" Keyboard="Numeric"
+                       VerticalOptions="Center" HorizontalOptions="Center" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
+                       Grid.Row="3" Grid.Column="1" Text="{Binding Value0}"/>
+
+                            <Label Text="Value1:" FontSize="Medium" 
+                       VerticalOptions="Center" HorizontalOptions="Center"
+                       Grid.Row="4" Grid.Column="0"/>
+                            <Entry Placeholder="Value1 of Widget" FontSize="Medium" Keyboard="Numeric"
+                       VerticalOptions="Center" HorizontalOptions="Center" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
+                       Grid.Row="4" Grid.Column="1" Text="{Binding Value1}"/>
+                        </Grid>
+                    </Frame>
+                    <Button Text="Update Widget" VerticalOptions="Center" HorizontalOptions="Center" Command="{Binding UpdateWidgetCommand}"/>
+                </VerticalStackLayout>
+            </Frame>
+
+
+
+    </StackLayout>
+</ContentPage>

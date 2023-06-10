@@ -1,4 +1,5 @@
-﻿using SQLite;
+﻿using GraduationMVVM.MVVM.Models;
+using SQLite;
 using System.Linq.Expressions;
 
 namespace GraduationMVVM.Abstract
@@ -18,6 +19,12 @@ namespace GraduationMVVM.Abstract
             else { Connection.Insert(item); }
         }
 
+        public void GaugeValueUpdate(int GaugeId, int Value)
+        {
+            var gauge = Connection.Table<GaugeModel>().FirstOrDefault(x => x.Id == GaugeId);
+            gauge.Value = Value;
+            Connection.Update(gauge);
+        }
         public void DeleteItem(T item)
         {
             Connection.Delete(item);
@@ -43,11 +50,6 @@ namespace GraduationMVVM.Abstract
 
             return entity;
         }
-        public T Get(int ID)
-        {
-            T entity = Connection.Table<T>().ToList()[ID];
-            return entity;
-        }
         public List<T> GetList(Expression<Func<T, bool>> filter)
         {
             var entity = Connection.Table<T>().Where(filter);
@@ -55,7 +57,7 @@ namespace GraduationMVVM.Abstract
             return entity.ToList();
         }
 
-        public bool isEmpty()
+        public bool IsEmpty()
         {
             if (Connection.Table<T>() == null) return true;
             else return false;

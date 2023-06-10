@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GraduationMVVM.MVVM.Views.SDWidgetsListView"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             Title="Widgets">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:SelectedItemEventArgsConverter x:Key="SelectedItemEventArgsConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <StackLayout>
+
+            <Frame CornerRadius="25" Margin="5">
+                <ListView x:Name="ButtonListView"
+                  HasUnevenRows="True"
+                  CachingStrategy="RecycleElement"
+                  SeparatorColor="Transparent"
+                  ItemSelected="ButtonListView_ItemSelected"
+                    ItemsSource="{Binding Path=DevicetoBind.Buttons}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate >
+                            <ViewCell>
+                                <StackLayout Spacing="5">
+                                    <Frame BackgroundColor="LightGray" BorderColor="Black" CornerRadius="25">
+                                        <Grid RowSpacing="5" ColumnDefinitions="*,15*,*">
+                                            <Button Text="{Binding ButName}" Grid.Column="1" CornerRadius="20" BackgroundColor="MediumPurple"/>
+                                        </Grid>
+                                    </Frame>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Frame>
+
+            <Frame CornerRadius="25" Margin="5">
+                <ListView x:Name="SwitchList"
+                  HasUnevenRows="True"
+                  CachingStrategy="RecycleElement"
+                  SeparatorColor="Transparent"
+                  ItemSelected="SwitchList_ItemSelected" 
+                    ItemsSource="{Binding Path=DevicetoBind.Switchs}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Spacing="5">
+                                    <Frame BackgroundColor="LightGray" BorderColor="Black" CornerRadius="25">
+
+                                        <Grid ColumnDefinitions="*,*">
+                                            <Label Text="{Binding SwName}" VerticalOptions="Center" HorizontalOptions="Center" Grid.Column="0"/>
+                                            <Switch VerticalOptions="Center" HorizontalOptions="Center" OnColor="Green" BackgroundColor="Transparent" Grid.Column="1" IsEnabled="False">
+                                            </Switch>
+                                        </Grid>
+                                    </Frame>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Frame>
+
+            <Frame Margin="5" CornerRadius="25">
+                <ListView x:Name="GaugeList" 
+                  HasUnevenRows="True"
+                  CachingStrategy="RecycleElement"
+                  SeparatorColor="Transparent" 
+                  ItemSelected="GaugeList_ItemSelected"
+                    ItemsSource="{Binding Path=DevicetoBind.Gauges}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Spacing="5">
+                                    <Frame BackgroundColor="LightGray" BorderColor="Black" CornerRadius="25">
+                                        <VerticalStackLayout>
+                                            <Label Text="{Binding GaugeName}" Grid.Column="0" 
+                                               HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                                            <Grid ColumnDefinitions="*,*,5*,*,*" RowDefinitions="*,*">
+                                                <Label Text="{Binding Value0}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+                                                   Grid.Column="0" Grid.Row="1" />
+                                                <Slider x:Name="GaugeLevel"  
+                                                    Minimum="{Binding Value0}" Maximum="{Binding Value1}" Value="{Binding Value}" MaximumTrackColor="Red" MinimumTrackColor="Green" 
+                                                    Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="1" IsEnabled="True" VerticalOptions="Center" />
+                                                <Label Text="{Binding Value1}"  HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
+                                                   Grid.Column="4" Grid.Row="1"/>
+                                            </Grid>
+                                            <Label Text="{Binding Value,Mode=TwoWay}"  Grid.Column="1" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                                        </VerticalStackLayout>
+                                    </Frame>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Frame>
+
+            <Frame CornerRadius="25" Margin="5">
+                <ListView x:Name="SliderList"
+                  HasUnevenRows="True"
+                  CachingStrategy="RecycleElement"
+                  SeparatorColor="Transparent"
+                  ItemSelected="SliderList_ItemSelected"
+                    ItemsSource="{Binding Path=DevicetoBind.Sliders}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate >
+                            <ViewCell>
+                                <StackLayout Spacing="5">
+                                    <Frame BackgroundColor="LightGray" BorderColor="Black" CornerRadius="25">
+                                        <VerticalStackLayout>
+                                            <Label Text="{Binding SliderName}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                                            <Grid ColumnDefinitions="*,*,5*,*,*">
+
+                                                <Label Text="{Binding Value0}" Grid.Column="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+
+                                                <Slider Minimum="{Binding Value0}" Maximum="{Binding Value1}" Value="{Binding Value,Mode=TwoWay}" FlowDirection="LeftToRight" 
+                                                    Grid.Column="1" Grid.ColumnSpan="3" 
+                                                    VerticalOptions="Center">
+                                                    <Slider.Behaviors>
+                                                        <toolkit:EventToCommandBehavior EventName="DragCompleted" Command="{Binding Source={x:Reference SliderList}, Path=BindingContext.SliderValueChangedCommand}" CommandParameter="{Binding Id}"/>
+                                                    </Slider.Behaviors>
+                                                </Slider>
+
+                                                <Label Text="{Binding Value1}" Grid.Column="4" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"/>
+                                            </Grid>
+                                            <Label Text="{Binding Value, Mode=TwoWay}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                                        </VerticalStackLayout>
+                                    </Frame>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Frame>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

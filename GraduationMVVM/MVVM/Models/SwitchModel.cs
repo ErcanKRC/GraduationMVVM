@@ -1,7 +1,9 @@
 ﻿using GraduationMVVM.Abstract;
+using PropertyChanged;
 
 namespace GraduationMVVM.MVVM.Models
 {
+    [AddINotifyPropertyChangedInterface]
     public class SwitchModel : TableData
     {
         public int DeviceId { get; set; }

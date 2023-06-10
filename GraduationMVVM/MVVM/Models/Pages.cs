@@ -9,5 +9,7 @@ namespace GraduationMVVM.MVVM.Models
         public DeviceSettingsPageView DeviceSettingsPage { get; set; }
         public AddDeviceView AddDevicePage { get; set; }
         public AddWidgetPage AddWidgetPage { get; set; }
+        public WidgetSettingsView WidgetSettingsPage { get; set; }
+        public SDWidgetsListView WidgetsListView { get; set; }
     }
 }

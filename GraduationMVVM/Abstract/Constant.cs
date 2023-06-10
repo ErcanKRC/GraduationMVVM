@@ -3,7 +3,7 @@
     public static class Constant
     {
 
-        private const string DBFileName = "GraduationMVVM.db3";
+        private const string DBFileName = "GraduationMVVM1.db3";
         public static string DBpath
         {
             get

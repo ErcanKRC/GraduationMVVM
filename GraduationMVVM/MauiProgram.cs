@@ -1,6 +1,7 @@
-﻿using GraduationMVVM.Abstract;
+﻿using CommunityToolkit.Maui;
+using GraduationMVVM.Abstract;
 using GraduationMVVM.MVVM.Models;
-using CommunityToolkit.Maui;
+using Syncfusion.Maui.Core.Hosting;
 
 namespace GraduationMVVM;
 
@@ -10,15 +11,13 @@ public static class MauiProgram
     {
         var builder = MauiApp.CreateBuilder();
         builder.UseMauiCommunityToolkit();
+        builder.ConfigureSyncfusionCore();
         builder.UseMauiApp<App>()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
-
-        
-
 
         builder.Services.AddSingleton<BaseRepository<DevicesModel>>();
         builder.Services.AddSingleton<BaseRepository<SliderModel>>();

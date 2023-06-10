@@ -28,6 +28,8 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+		<DefaultLanguage>en</DefaultLanguage>
+		<Configurations>Debug;Release;Deneme</Configurations>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -54,11 +56,15 @@
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	  <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" />
 	  <PackageReference Include="sqlite-net-pcl" Version="1.9.141-beta" />
+	  <PackageReference Include="Syncfusion.Maui.Gauges" Version="21.2.9" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Compile Update="MVVM\Views\DevicePageView.xaml.cs">
 	    <DependentUpon>DevicePageView.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="MVVM\Views\WidgetSettingsView.xaml.cs">
+	    <DependentUpon>WidgetSettingsView.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
@@ -78,6 +84,14 @@
 	  <MauiXaml Update="MVVM\Views\DevicesPageView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="MVVM\Views\SDWidgetsListView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="MVVM\Views\WidgetSettingsView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
+
+	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadUnhandledDeviceExceptionGraduationMVVMHideInfoBar="True" /></VisualStudio></ProjectExtensions>
 
 </Project>

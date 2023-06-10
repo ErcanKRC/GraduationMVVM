@@ -81,7 +81,7 @@ namespace GraduationMVVM.Services
             }
             catch (Exception ex)
             {
-                string message = ex.Message;
+
             }
         }
 

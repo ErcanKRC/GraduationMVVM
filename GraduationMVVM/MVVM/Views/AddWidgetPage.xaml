@@ -10,87 +10,64 @@
         <ViewModels:AddWidgetPageViewModel/>
     </ContentPage.BindingContext>
 
-    <VerticalStackLayout>
+    <VerticalStackLayout VerticalOptions="Center">
 
-        <Frame BorderColor="Gray" Margin="20" BackgroundColor="Transparent">
-            <Grid ColumnDefinitions="*,3*" RowDefinitions="*,*,*,*,*">
-                <Label Text=" Widget Type:" FontSize="Small" 
+        <Frame BorderColor="Gray" Margin="5" BackgroundColor="Transparent" VerticalOptions="Center">
+            <VerticalStackLayout>
+                <Frame BorderColor="Gray" Margin="1" BackgroundColor="Transparent">
+                    <Grid ColumnDefinitions="*,3*" RowDefinitions="*,*,*,*,*">
+                        <Label Text=" Widget Type:" FontSize="Medium" 
                        VerticalOptions="Center" HorizontalOptions="Center"
                        Grid.Row="0" Grid.Column="0" />
 
-                <Picker x:Name="WidgetTypePicker"
-                    Title="Type of Widget"
-                    FontSize="Small" FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
-                    HorizontalOptions="Center" VerticalOptions="Center"
-                    Grid.Row="0" Grid.Column="1"
+                        <Picker x:Name="WidgetTypePicker"
+                    Title="Type of Widget" FontAttributes="Bold" FontSize="Medium" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
+                    HorizontalOptions="Center" VerticalOptions="Center" Grid.Row="0" Grid.Column="1"
                     SelectedIndexChanged="WidgetTypePicker_SelectedIndexChanged">
-                    <Picker.ItemsSource>
-                        <x:Array Type="{x:Type x:String}">
-                            <x:String>Button</x:String>
-                            <x:String>Switch</x:String>
-                            <x:String>Gauge</x:String>
-                            <x:String>TrackBar</x:String>
-                        </x:Array>
-                    </Picker.ItemsSource>
-                </Picker>
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Button</x:String>
+                                    <x:String>Switch</x:String>
+                                    <x:String>Gauge</x:String>
+                                    <x:String>Slider</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
 
-                <Label Text="Name:" FontSize="Small" 
+                        <Label Text="Name:" FontSize="Medium" 
                        VerticalOptions="Center" HorizontalOptions="Center"
-                       Grid.Row="1" Grid.Column="0"/> 
-                <Entry Placeholder="Name of Widget" FontSize="Small" 
+                       Grid.Row="1" Grid.Column="0"/>
+                        <Entry Placeholder="Name of Widget" FontSize="Medium" 
                        VerticalOptions="Center" HorizontalOptions="Center"  VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
                        Grid.Row="1" Grid.Column="1" Text="{Binding WidgetName}"/>
 
-                <Label Text="StreamId:" FontSize="Small" 
+                        <Label Text="StreamId:" FontSize="Medium" 
                        VerticalOptions="Center" HorizontalOptions="Center"
                        Grid.Row="2" Grid.Column="0"/>
-                <Entry Placeholder="StreamId of Widget" FontSize="Small" Keyboard="Numeric"
+                        <Entry Placeholder="StreamId of Widget" FontSize="Medium" Keyboard="Numeric"
                        VerticalOptions="Center" HorizontalOptions="Center" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
                        Grid.Row="2" Grid.Column="1" Text="{Binding StreamId}"/>
 
-                <Label Text="Value0:" FontSize="Small" 
+                        <Label Text="Value0:" FontSize="Medium" 
                        VerticalOptions="Center" HorizontalOptions="Center"
                        Grid.Row="3" Grid.Column="0"/>
-                <Entry Placeholder="Value0 of Widget" FontSize="Small" Keyboard="Numeric"
+                        <Entry Placeholder="Value0 of Widget" FontSize="Medium" Keyboard="Numeric"
                        VerticalOptions="Center" HorizontalOptions="Center" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
                        Grid.Row="3" Grid.Column="1" Text="{Binding Value0}"/>
 
-                <Label Text="Value1:" FontSize="Small" 
+                        <Label Text="Value1:" FontSize="Medium" 
                        VerticalOptions="Center" HorizontalOptions="Center"
                        Grid.Row="4" Grid.Column="0"/>
-                <Entry Placeholder="Value1 of Widget" FontSize="Small" Keyboard="Numeric"
+                        <Entry Placeholder="Value1 of Widget" FontSize="Medium" Keyboard="Numeric"
                        VerticalOptions="Center" HorizontalOptions="Center" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
                        Grid.Row="4" Grid.Column="1" Text="{Binding Value1}"/>
-            </Grid>
-        </Frame>
-        
-        
-        <HorizontalStackLayout HorizontalOptions="Center">
-            <Label Text=" Widget Type:" FontSize="Small" VerticalOptions="Center" FontAutoScalingEnabled="True"/>
-            <Label Text="{Binding WidgetType}" VerticalOptions="Center" HorizontalOptions="Center"/>
-        </HorizontalStackLayout>
-        <HorizontalStackLayout HorizontalOptions="Center">
-            <Label Text=" Widget Name:" FontSize="Small" VerticalOptions="Center" />
-            <Label Text="{Binding WidgetName}" VerticalOptions="Center" HorizontalOptions="Center"/>
-        </HorizontalStackLayout>
+                    </Grid>
+                </Frame>
 
-        <HorizontalStackLayout HorizontalOptions="Center">
-            <Label Text=" Widget StreamId:" FontSize="Small" VerticalOptions="Center" />
-            <Label Text="{Binding StreamId}" VerticalOptions="Center" HorizontalOptions="Center"/>
-        </HorizontalStackLayout>
-
-        <HorizontalStackLayout HorizontalOptions="Center">
-            <Label Text=" Widget Value0:" FontSize="Small" VerticalOptions="Center" />
-            <Label Text="{Binding Value0}" VerticalOptions="Center" HorizontalOptions="Center"/>
-        </HorizontalStackLayout>
-
-        <HorizontalStackLayout HorizontalOptions="Center">
-            <Label Text=" Widget Value1:" FontSize="Small" VerticalOptions="Center" />
-            <Label Text="{Binding Value1}" VerticalOptions="Center" HorizontalOptions="Center"/>
-        </HorizontalStackLayout>
-
-        <Button Text="Add Widget" 
-                VerticalOptions="Center" HorizontalOptions="Center" Margin="25"
+                <Button Text="Add Widget" 
+                VerticalOptions="Center"  Margin="25" CornerRadius="20" BackgroundColor="MediumPurple"
                 Command="{Binding AddWidgetCommand}"/>
-    </VerticalStackLayout>
+            </VerticalStackLayout>
+        </Frame>
+    </VerticalStackLayout>    
 </ContentPage>
