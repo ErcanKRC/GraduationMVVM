@@ -15,7 +15,7 @@
         <Frame BorderColor="Gray" Margin="5" BackgroundColor="Transparent" VerticalOptions="Center">
             <VerticalStackLayout>
                 <Frame BorderColor="Gray" Margin="1" BackgroundColor="Transparent">
-                    <Grid ColumnDefinitions="*,3*" RowDefinitions="*,*,*,*,*">
+                    <Grid ColumnDefinitions="Auto,Auto" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
                         <Label Text=" Widget Type:" FontSize="Medium" 
                        VerticalOptions="Center" HorizontalOptions="Center"
                        Grid.Row="0" Grid.Column="0" />

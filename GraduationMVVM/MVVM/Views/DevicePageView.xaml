@@ -36,26 +36,27 @@
     <ScrollView>
         <VerticalStackLayout Spacing="10">
             <Frame BackgroundColor="LightGray" Margin="5" >
-                <Grid ColumnDefinitions="3*,7*,2*" RowDefinitions="*,*,*">
+                <Grid ColumnDefinitions="Auto,7*" RowDefinitions="*,*,*">
 
-                    <Label Text="Device Name: " VerticalOptions="Center"
+                    <Label Text="Device Name: " VerticalOptions="Center" FontSize="Small"
                    Grid.Column="0" Grid.Row="0"/>
                     <Label Text="{x:Binding Path=DevicetoBind.Name}"  VerticalOptions="Center" HorizontalOptions="Center"
                    Grid.Column="1" Grid.Row="0"/>
 
                     <Label Text="Device Token: "
                    Grid.Column="0" Grid.Row="1"/>
-                    <Label Text="{Binding Path=DevicetoBind.Token}" VerticalOptions="Center" HorizontalOptions="Center" 
-                   Grid.Column="1" Grid.Row="1"/>
+                    <Label Text="{Binding Path=DevicetoBind.Token}" FontSize="Caption" 
+                           VerticalOptions="Center" HorizontalOptions="Center" 
+                           Grid.Column="1" Grid.Row="1"/>
 
                     <Label Text="Device Server: "
                    Grid.Column="0" Grid.Row="2"/>
                     <Label Text="{Binding Path=DevicetoBind.Server}" VerticalOptions="Center" HorizontalOptions="Center" 
-                   Grid.Column="1" Grid.Row="2"/>
+                   Grid.Column="1" Grid.Row="2" />
 
                     <Label Text="{Binding IsActive, Converter={StaticResource Key=StateCheck}}" TextColor="{Binding IsActive, Converter={StaticResource Key=stringToColor}}" FontAttributes="Bold" FontSize="Small" 
                     BackgroundColor="Transparent" IsEnabled="False" 
-                    Grid.Column="3" Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center"/>
+                    Grid.Column="1" Grid.Row="0" HorizontalOptions="End" VerticalOptions="Center"/>
                 </Grid>
             </Frame>
 

@@ -24,26 +24,26 @@
         </Grid>
     </Shell.TitleView>
 
-    <StackLayout Margin="15" Spacing="25">
+    <StackLayout Margin="5" Spacing="25">
 
-        <Frame Margin="5" CornerRadius="25">
+        <Frame  CornerRadius="25">
             <VerticalStackLayout >
 
                 <Frame BackgroundColor="LightGray"  CornerRadius="20">
-                    <Grid ColumnDefinitions="*,*,2*" RowDefinitions="*,*,*" >
-                        <Label Grid.Row="0" Grid.Column="0" Text="Device Name: " HorizontalOptions="Start"  VerticalOptions="Center" FontSize="12" FontAttributes="Bold"/>
+                    <Grid ColumnDefinitions="Auto,Auto,Auto" RowDefinitions="*,*,*" >
+                        <Label Grid.Row="0" Grid.Column="0" Text="Device Name: " HorizontalOptions="Start"  VerticalOptions="Center" FontSize="Caption" FontAttributes="Bold"/>
                         <Entry Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" x:Name="Entry_Name" Text="{Binding Path=DevicetoBind.Name,Mode=TwoWay}" Placeholder="Please Enter a Device Name" PlaceholderColor="Gray" 
                        HorizontalOptions="StartAndExpand" FontSize="Small"/>
 
-                        <Label Grid.Row="1" Grid.Column="0"  Text="Device Token: " HorizontalOptions="Start" VerticalOptions="Center" FontSize="12" FontAttributes="Bold"/>
+                        <Label Grid.Row="1" Grid.Column="0"  Text="Device Token: " HorizontalOptions="Start" VerticalOptions="Center" FontSize="Caption" FontAttributes="Bold"/>
                         <Entry Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" x:Name="Entry_Token" Text="{Binding Path=DevicetoBind.Token,Mode=TwoWay}" Placeholder="Please Enter a Device TOKEN" PlaceholderColor="Gray" 
-                       HorizontalOptions="StartAndExpand" FontSize="Small" />
+                       HorizontalOptions="StartAndExpand" FontSize="Caption" />
 
-                        <Label Grid.Row="2" Grid.Column="0" Text="Device Server: " HorizontalOptions="Start" VerticalOptions="Center" FontSize="12" FontAttributes="Bold"/>
+                        <Label Grid.Row="2" Grid.Column="0" Text="Device Server: " HorizontalOptions="Start" VerticalOptions="Center" FontSize="Caption" FontAttributes="Bold"/>
                         <Picker Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" x:Name="pickerServer"
                     SelectedItem="{Binding Path=DevicetoBind.Server,Mode=TwoWay}"
                     HorizontalOptions="StartAndExpand" VerticalOptions="Center"
-                    FontSize="Small" FontAttributes="Bold">
+                    FontSize="Caption" FontAttributes="Bold">
                             <Picker.ItemsSource>
                                 <x:Array Type="{x:Type x:String}">
                                     <x:String>https://fra1.blynk.cloud/</x:String>

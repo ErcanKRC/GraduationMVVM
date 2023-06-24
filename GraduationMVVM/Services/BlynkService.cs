@@ -7,10 +7,6 @@ namespace GraduationMVVM.Services
     {
         private static BlynkService _instance = null;
         public static BlynkService Instance { get => _instance ??= new BlynkService(); }
-        private BlynkService()
-        {
-
-        }
 
         private HttpClient client;
         private HttpResponseMessage response;

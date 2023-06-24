@@ -30,6 +30,67 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 		<DefaultLanguage>en</DefaultLanguage>
 		<Configurations>Debug;Release;Deneme</Configurations>
+		<AssemblyName>$(MSBuildProjectName)</AssemblyName>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-android|AnyCPU'">
+	  <ApplicationId>com.companyname.ErcanKRC</ApplicationId>
+	  <ApplicationTitle>Blynk CrossLink</ApplicationTitle>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-ios|AnyCPU'">
+	  <ApplicationId>com.companyname.ErcanKRC</ApplicationId>
+	  <ApplicationTitle>Blynk CrossLink</ApplicationTitle>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-maccatalyst|AnyCPU'">
+	  <ApplicationId>com.companyname.ErcanKRC</ApplicationId>
+	  <ApplicationTitle>Blynk CrossLink</ApplicationTitle>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-windows10.0.19041.0|AnyCPU'">
+	  <ApplicationId>com.companyname.ErcanKRC</ApplicationId>
+	  <ApplicationTitle>Blynk CrossLink</ApplicationTitle>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-android|AnyCPU'">
+	  <ApplicationId>com.companyname.ErcanKRC</ApplicationId>
+	  <ApplicationTitle>Blynk CrossLink</ApplicationTitle>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-ios|AnyCPU'">
+	  <ApplicationId>com.companyname.ErcanKRC</ApplicationId>
+	  <ApplicationTitle>Blynk CrossLink</ApplicationTitle>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-maccatalyst|AnyCPU'">
+	  <ApplicationId>com.companyname.ErcanKRC</ApplicationId>
+	  <ApplicationTitle>Blynk CrossLink</ApplicationTitle>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-windows10.0.19041.0|AnyCPU'">
+	  <ApplicationId>com.companyname.ErcanKRC</ApplicationId>
+	  <ApplicationTitle>Blynk CrossLink</ApplicationTitle>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Deneme|net6.0-android|AnyCPU'">
+	  <ApplicationId>com.companyname.ErcanKRC</ApplicationId>
+	  <ApplicationTitle>Blynk CrossLink</ApplicationTitle>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Deneme|net6.0-ios|AnyCPU'">
+	  <ApplicationId>com.companyname.ErcanKRC</ApplicationId>
+	  <ApplicationTitle>Blynk CrossLink</ApplicationTitle>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Deneme|net6.0-maccatalyst|AnyCPU'">
+	  <ApplicationId>com.companyname.ErcanKRC</ApplicationId>
+	  <ApplicationTitle>Blynk CrossLink</ApplicationTitle>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Deneme|net6.0-windows10.0.19041.0|AnyCPU'">
+	  <ApplicationId>com.companyname.ErcanKRC</ApplicationId>
+	  <ApplicationTitle>Blynk CrossLink</ApplicationTitle>
 	</PropertyGroup>
 
 	<ItemGroup>

@@ -2,14 +2,15 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GraduationMVVM.MVVM.Views.AddDeviceView"
-             Title="AddDeviceView">
+             Title="Add Device">
     
     <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
 
         <Frame BorderColor="Gray" BackgroundColor="LightGray" CornerRadius="30" Margin="5">
             <Grid RowDefinitions="Auto, Auto, Auto, Auto" ColumnDefinitions="2*, *, *, *, *" RowSpacing="15">
 
-                <Label Grid.Row="0" Grid.Column="0" Text="Device Name: " TextColor="Black" HorizontalOptions="Center"  VerticalOptions="Center"  FontAttributes="Bold"/>
+                <Label Grid.Row="0" Grid.Column="0" 
+                       Text="Device Name: " TextColor="Black" HorizontalOptions="Center"  VerticalOptions="Center"  FontAttributes="Bold"/>
                 <Entry Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" x:Name="Entry_Name" Placeholder="Please Enter a Device Name" PlaceholderColor="Gray" HorizontalOptions="Start" />
 
                 <Label Grid.Row="1" Grid.Column="0"  Text="Device Token: " TextColor="Black" HorizontalOptions="Center" VerticalOptions="Center" FontAttributes="Bold"/>
